@@ -1,0 +1,288 @@
+[
+  {
+    "name": "Go",
+    "type": "go",
+    "desc": "desc",
+	"color": "white",
+	"value": 0
+  },
+  {
+    "name": "Mediteranean Avenue",
+    "type": "property",
+    "color": "brown",
+    "desc": "desc",
+    "value": 60
+  },
+  {
+    "name": "Community Chest",
+    "type": "chest",
+    "desc": "desc",
+	"color": "white",
+	"value": 0
+  },
+  {
+    "name": "Baltic Avenue",
+    "type": "property",
+    "color": "brown",
+    "desc": "desc",
+    "value": 60
+  },
+  {
+    "name": "Income Tax",
+    "type": "tax",
+    "desc": "desc",
+    "value": 200,
+	"color" : "white"
+  },
+  {
+    "name": "Reading Railroad",
+    "type": "station",
+    "desc": "desc",
+    "value": 200,
+	"color" : "white"
+  },
+  {
+    "name": "Oriental Avenue",
+    "type": "property",
+    "color": "blue",
+    "desc": "desc",
+    "value": 100
+  },
+  {
+    "name": "Chance",
+    "type": "chance",
+    "desc": "desc",
+	"value": 0,
+	"color" : "white"
+  },
+  {
+    "name": "Vermont Avenue",
+    "type": "property",
+    "color": "blue",
+    "desc": "desc",
+    "value": 100
+  },
+  {
+    "name": "Connecticut Avenue",
+    "type": "property",
+    "color": "blue",
+    "desc": "desc",
+    "value": 120
+  },
+
+
+  {
+    "name": "Jail",
+    "type": "jail",
+    "desc": "desc",
+	"value": 0,
+	"color" : "white"
+  },
+  {
+    "name": "St.Charles Place",
+    "type": "property",
+    "color": "pink",
+    "desc": "desc",
+    "value": 140
+  },
+  {
+    "name": "Electric Company",
+    "type": "electric",
+    "desc": "desc",
+    "value": 150,
+	"color": "white"
+  },
+  {
+    "name": "States Avenue",
+    "type": "property",
+    "color": "pink",
+    "desc": "desc",
+    "value": 150
+  },
+  {
+    "name": "Virginia Avenue",
+    "type": "property",
+    "color": "pink",
+    "desc": "desc",
+    "value": 160
+  },
+  {
+    "name": "Pennsylvania Railroad",
+    "type": "station",
+    "desc": "desc",
+    "value": 200,
+	"color": "white"
+  },
+  {
+    "name": "St.James Place",
+    "type": "property",
+    "color": "orange",
+    "desc": "desc",
+    "value": 180
+  },
+  {
+    "name": "Community Chest",
+    "type": "chest",
+    "desc": "desc",
+	"value": 0,
+	"color": "white"
+  },
+  {
+    "name": "Tennessee Avenue",
+    "type": "property",
+    "color": "orange",
+    "desc": "desc",
+    "value": 180
+  },
+  {
+    "name": "New York Avenue",
+    "type": "property",
+    "color": "orange",
+    "desc": "desc",
+    "value": 200
+  },
+
+
+  {
+    "name": "Free Parking",
+    "type": "free",
+    "desc": "desc",
+	"value": 0,
+	"color": "white"
+  },
+  {
+    "name": "Kentucky Avenue",
+    "type": "property",
+    "color": "red",
+    "desc": "desc",
+    "value": 220
+  },
+  {
+    "name": "Chance",
+    "type": "chance",
+    "desc": "desc",
+	"value": 0,
+	"color": "white"
+  },
+  {
+    "name": "Indiana Avenue",
+    "type": "property",
+    "color": "red",
+    "desc": "desc",
+    "value": 220
+  },
+  {
+    "name": "Illinois Avenue",
+    "type": "property",
+    "color": "red",
+    "desc": "desc",
+    "value": 240
+  },
+  {
+    "name": "B. & O. Railroad",
+    "type": "station",
+    "desc": "desc",
+    "value": 200,
+	"color": "white"
+  },
+  {
+    "name": "Atlantic Avenue",
+    "type": "property",
+    "color": "yellow",
+    "desc": "desc",
+    "value": 260
+  },
+  {
+    "name": "Ventnor Avenue",
+    "type": "property",
+    "color": "yellow",
+    "desc": "desc",
+    "value": 260
+  },
+  {
+    "name": "Water Works",
+    "type": "water",
+    "desc": "desc",
+    "value": 150,
+	"color": "white"
+  },
+  {
+    "name": "Marvin Gardens",
+    "type": "property",
+    "color": "yellow",
+    "desc": "desc",
+    "value": 280
+  },
+
+
+  {
+    "name": "Goto Jail",
+    "type": "gotojail",
+    "desc": "desc",
+	"value": 150,
+	"color": "white"
+  },
+  {
+    "name": "Pacific Avenue",
+    "type": "property",
+    "color": "green",
+    "desc": "desc",
+    "value": 300
+  },
+  {
+    "name": "North Carolina Avenue",
+    "type": "property",
+    "color": "green",
+    "desc": "desc",
+    "value": 300
+  },
+  {
+    "name": "Community Chest",
+    "type": "chest",
+    "desc": "desc",
+	"value": 150,
+	"color": "white"
+  },
+  {
+    "name": "Pennslvania Avenue",
+    "type": "property",
+    "color": "green",
+    "desc": "desc",
+    "value": 320
+  },
+  {
+    "name": "Short Line",
+    "type": "station",
+    "desc": "desc",
+    "value": 200,
+	"color": "white"
+  },
+  {
+    "name": "Chance",
+    "type": "chance",
+    "desc": "desc",
+    "value": 200,
+	"color": "white"
+  },
+  {
+    "name": "Park Place",
+    "type": "property",
+    "color": "blue",
+    "desc": "desc",
+    "value": 350
+  },
+  {
+    "name": "Luxury Tax",
+    "type": "tax",
+    "desc": "desc",
+    "value": 100,
+	"color": "white"
+  },
+  {
+    "name": "Board walk",
+    "type": "property",
+    "color": "blue",
+    "desc": "desc",
+    "value": 400
+  }
+]

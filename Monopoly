@@ -1,0 +1,14 @@
+Monopoly
+
+- Board
+
+- Player
+	- Id
+	- Name
+	- Position
+	- Cash
+	- Bank
+
+
+- Dice
+- Event
