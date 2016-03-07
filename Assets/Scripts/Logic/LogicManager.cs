@@ -75,6 +75,11 @@ namespace Monopoly.Model
 			return currentPlayerIndex;
 		}
 
+		public int GetPlayerSquareIndex(int playerIndex)
+		{
+			return players[playerIndex].PosIndex;
+		}
+
 		public int GetCurrentPlayerIndex()
 		{
 			return currentPlayerIndex;

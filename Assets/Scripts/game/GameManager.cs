@@ -60,6 +60,7 @@ namespace Monopoly.Controller
 			EntryUI.gameStartEvent -= EntryUI_gameStartEvent;
 			RollingUI.rollDiceEvent -= RollingUI_rollDiceEvent;
 			Square.initSquareEvent -= Square_initSquareEvent;
+			Player.initPlayerEvent -= Player_initPlayerEvent;
 
 			Destroy(boardGameObj);
 		}
@@ -92,9 +93,6 @@ namespace Monopoly.Controller
 		{
 			boardGameObj = Instantiate(Resources.Load<GameObject>("prefabs/game/Board"));
 			boardGameObj.transform.SetParent(gameObject.transform);
-			Debug.Log("bounds is " + boardGameObj.GetComponent<SpriteRenderer>().bounds);
-			Debug.Log("bounds is " + boardGameObj.GetComponent<SpriteRenderer>().sprite.bounds);
-			//boardGameObj.GetComponent<SpriteRenderer>().bounds
 		}
 
 		// use square data to init game object.
@@ -112,7 +110,6 @@ namespace Monopoly.Controller
 			// pace squares on board.
 			float offsetX = 0f;
 			float offsetY = 0f;
-			float rotationZ = 0f;
 
 			if (index > 0)
 			{
@@ -158,15 +155,16 @@ namespace Monopoly.Controller
 				square.transform.localPosition = new Vector3(0f, 0f, 0f);
 			}
 
-
-
 			// add to square game objects list, easy to access.
 			squareGameObjs.Add(square);
+		}
 
-			Debug.Log("local pos" + square.transform.localPosition);
-			//square.transform.localPosition = square.transform.localPosition + size;
-
-
+		IEnumerator MovePlayer(int playerIndex)
+		{
+			GameObject playerObj = playerGameObjs[playerIndex];
+			int squareIndex = LogicManager.instance.GetPlayerSquareIndex(playerIndex);
+			playerObj.transform.localPosition = squareGameObjs[squareIndex].transform.localPosition;
+			yield return new WaitForSeconds(1f);
 		}
 
 		// after click dice
@@ -184,7 +182,9 @@ namespace Monopoly.Controller
 
 			// move game player
 			int playerIndex = LogicManager.instance.GetCurrentPlayerIndex();
-			//playerGameObjs[playerIndex].GetComponent<PlayerGameObject>().Move(delta);
+			GameObject playerObj = playerGameObjs[playerIndex];
+			int squareIndex = LogicManager.instance.GetPlayerSquareIndex(playerIndex);
+			playerObj.transform.localPosition = squareGameObjs[squareIndex].transform.localPosition;
 
 		}
 

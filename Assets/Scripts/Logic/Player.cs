@@ -33,7 +33,7 @@ namespace Monopoly.Model
 			PosIndex += delta;
 			if (PosIndex >= LogicManager.SQUARE_COUNT)
 			{
-				PosIndex = 0;
+				PosIndex = PosIndex - LogicManager.SQUARE_COUNT;
 			}
 		}
 
