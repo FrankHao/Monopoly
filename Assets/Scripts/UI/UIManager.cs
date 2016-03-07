@@ -6,6 +6,7 @@ namespace Monopoly.View
 {
 	public class UIManager : MonoBehaviour {
 
+		#region singleton
 		// singleton design partten
 		private UIManager() {}
 		private static UIManager _instance;
@@ -20,6 +21,7 @@ namespace Monopoly.View
 				return _instance;
 			}   
 		}
+		#endregion
 
 		GameObject entryUI;
 		GameObject rollingUI;
@@ -42,7 +44,6 @@ namespace Monopoly.View
 			playersUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PlayersUI"));
 			playersUI.transform.SetParent(gameObject.transform, false);
 			playersUI.SetActive(false);
-
 		}
 			
 		public void UpdateDices(int[] nums)
@@ -60,6 +61,10 @@ namespace Monopoly.View
 			playersUI.SetActive(true);
 		}
 
+		public void AddPlayerInfo(int playerIndex, string name, int cash)
+		{
+			playersUI.GetComponent<PlayersUI>().AddPlayerPanel(playerIndex, name, cash);
+		}
 	}
 
 }

@@ -24,9 +24,8 @@ namespace Monopoly.View
 
 		public void UpdateDices(int num1, int num2)
 		{
-			//Debug.Log("num1 " + num1 + " " + string.Format("Images/dice_{0}", num1-1));
-			dice1.GetComponent<Image>().sprite = Resources.Load<Sprite>(string.Format("Images/NO_{0}", num1));
-			dice2.GetComponent<Image>().sprite = Resources.Load<Sprite>(string.Format("Images/NO_{0}", num2));
+			dice1.GetComponent<Image>().sprite = Resources.Load<Sprite>(string.Format("Images/Dices/NO_{0}", num1));
+			dice2.GetComponent<Image>().sprite = Resources.Load<Sprite>(string.Format("Images/Dices/NO_{0}", num2));
 		}
 
 		public void OnClickRollBtn()

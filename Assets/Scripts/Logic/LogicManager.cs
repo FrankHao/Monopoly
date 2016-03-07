@@ -27,7 +27,7 @@ namespace Monopoly.Model
 		#region properties
 		public Board board {get; set;}
 		List<Player> players = new List<Player>();
-		int nextPlayerIndex = 0;
+		int currentPlayerIndex = 0;
 		#endregion
 
 		public delegate void GenericCallBack(bool succ, string msg);
@@ -53,7 +53,7 @@ namespace Monopoly.Model
 			board = new Board(boardJSON);
 
 			// init players
-			nextPlayerIndex = 0;
+			currentPlayerIndex = 0;
 			for(int i=0; i<PLAYER_COUNT; i++)
 			{
 				string name = string.Format("player{0}", i);
@@ -67,22 +67,22 @@ namespace Monopoly.Model
 
 		public int GenNextPlayerIndex()
 		{
-			nextPlayerIndex++;
-			if (nextPlayerIndex >= PLAYER_COUNT)
+			currentPlayerIndex++;
+			if (currentPlayerIndex >= PLAYER_COUNT)
 			{
-				nextPlayerIndex = 0;
+				currentPlayerIndex = 0;
 			}
-			return nextPlayerIndex;
+			return currentPlayerIndex;
 		}
 
-		public int GetNextPlayerIndex()
+		public int GetCurrentPlayerIndex()
 		{
-			return nextPlayerIndex;
+			return currentPlayerIndex;
 		}
 
 		public void MovePlayer(int delta)
 		{
-			Player p = players[nextPlayerIndex];
+			Player p = players[currentPlayerIndex];
 			p.Move(delta);
 		}
 
