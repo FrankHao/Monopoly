@@ -10,16 +10,6 @@ namespace Monopoly.View
 		public static event gameStart gameStartEvent;
 
 
-		// Use this for initialization
-		void Start () {
-
-		}
-
-		// Update is called once per frame
-		void Update () {
-
-		}
-
 		public void OnClickPlayBtn()
 		{
 			gameObject.SetActive(false);

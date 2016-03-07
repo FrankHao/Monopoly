@@ -28,7 +28,10 @@ namespace Monopoly.Model
 			Value = (long)sqDict["value"];
 
 			// trigger square event to create game object.
-			initSquareEvent(this, index);
+			if (initSquareEvent != null)
+			{
+				initSquareEvent(this, index);
+			}
 		}
 	}
 }

@@ -26,6 +26,7 @@ namespace Monopoly.View
 		GameObject entryUI;
 		GameObject rollingUI;
 		GameObject playersUI;
+		GameObject confirmUI;
 
 		void Start()
 		{
@@ -44,6 +45,10 @@ namespace Monopoly.View
 			playersUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PlayersUI"));
 			playersUI.transform.SetParent(gameObject.transform, false);
 			playersUI.SetActive(false);
+
+			confirmUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmUI"));
+			confirmUI.transform.SetParent(gameObject.transform, false);
+			confirmUI.SetActive(false);
 		}
 			
 		public void UpdateDices(int[] nums)
@@ -59,6 +64,12 @@ namespace Monopoly.View
 		public void ShowPlayersUI()
 		{
 			playersUI.SetActive(true);
+		}
+
+		public void ShowConfirmUI(ConfirmUI.GenericCallBack callback)
+		{
+			confirmUI.SetActive(true);
+			confirmUI.GetComponent<ConfirmUI>().UpdateInfo("title", callback);
 		}
 
 		public void AddPlayerInfo(int playerIndex, string name, int cash)

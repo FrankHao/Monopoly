@@ -24,14 +24,6 @@ namespace Monopoly.Model
 		public const string SQ_GO = "go";
 		#endregion
 
-		#region properties
-		public Board board {get; set;}
-		List<Player> players = new List<Player>();
-		int currentPlayerIndex = 0;
-		#endregion
-
-		public delegate void GenericCallBack(bool succ, string msg);
-
 		#region singleton
 		// singleton
 		private LogicManager() {}
@@ -45,6 +37,12 @@ namespace Monopoly.Model
 			}
 		}
 		#endregion
+	
+		public Board board {get; set;}
+		List<Player> players = new List<Player>();
+		int currentPlayerIndex = 0;
+
+		public delegate void GenericCallBack();
 
 		// init game 
 		public void InitGame(string boardJSON, GenericCallBack callback)
@@ -62,7 +60,11 @@ namespace Monopoly.Model
 			}
 
 			// finish initialization, then callback.
-			callback(true, "succ");
+			if (callback != null)
+			{
+				callback();
+			}
+
 		}
 
 		public int GenNextPlayerIndex()
@@ -87,8 +89,8 @@ namespace Monopoly.Model
 
 		public void MovePlayer(int delta)
 		{
-			Player p = players[currentPlayerIndex];
-			p.Move(delta);
+			Player player = players[currentPlayerIndex];
+			player.Move(delta);
 		}
 
 		public static int[] RollDice()

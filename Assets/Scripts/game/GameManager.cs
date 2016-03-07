@@ -50,7 +50,7 @@ namespace Monopoly.Controller
 			playerObj.GetComponent<PlayerGameObject>().UpdatePlayerInfo(player.Name, player.Cash);
 			playerGameObjs.Add(player.PlayerIndex, playerObj);
 
-			// fill player UI object
+			// create player UI object
 			UIManager.instance.AddPlayerInfo(player.PlayerIndex, player.Name, player.Cash);
 		}
 
@@ -67,13 +67,16 @@ namespace Monopoly.Controller
 
 		void EntryUI_gameStartEvent ()
 		{
-			instance.GameStart();
+			GameStart();
 		}
 
-		void InitGameCallBack(bool succ, string msg)
+		void InitGameCallBack()
 		{
 			// when everything is ready, show rolling UI
 			UIManager.instance.ShowRollingUI();
+
+			// show player UI.
+			UIManager.instance.ShowPlayersUI();
 		}
 
 		public void GameStart() 
@@ -99,13 +102,9 @@ namespace Monopoly.Controller
 		void Square_initSquareEvent (Square squareObj, int index)
 		{
 			GameObject square = Instantiate(Resources.Load<GameObject>("Prefabs/Game/Square"));
-
-			// corner index
-			if (index == 0)
-			{
-				square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/corner_square");
-			}
 			square.transform.SetParent(boardGameObj.transform);
+			Sprite normalSquareLay = Resources.Load<Sprite>("Images/Board/normal_square_lay");
+			Sprite cornerSquare = Resources.Load<Sprite>("Images/Board/corner_square");
 
 			// pace squares on board.
 			float offsetX = 0f;
@@ -117,10 +116,10 @@ namespace Monopoly.Controller
 				Vector3 prevBoundSize = prevSquare.GetComponent<SpriteRenderer>().bounds.size;
 				if (index > 0 && index <= 10)
 				{
-					square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/normal_square_lay");
+					square.GetComponent<SpriteRenderer>().sprite = normalSquareLay;
 					if (index == 10)
 					{
-						square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/corner_square");
+						square.GetComponent<SpriteRenderer>().sprite = cornerSquare;
 					}
 					offsetY = prevBoundSize.y;
 				}
@@ -128,16 +127,16 @@ namespace Monopoly.Controller
 				{
 					if (index == 20)
 					{
-						square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/corner_square");
+						square.GetComponent<SpriteRenderer>().sprite = cornerSquare;
 					}
 					offsetX = prevBoundSize.x;
 				}
 				else if( index >= 21 && index <= 30 )
 				{
-					square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/normal_square_lay");
+					square.GetComponent<SpriteRenderer>().sprite = normalSquareLay;
 					if (index == 30)
 					{
-						square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/corner_square");
+						square.GetComponent<SpriteRenderer>().sprite = cornerSquare;
 					}
 					offsetY = -square.GetComponent<SpriteRenderer>().bounds.size.y;
 				}
@@ -152,6 +151,7 @@ namespace Monopoly.Controller
 			}
 			else
 			{
+				square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/corner_square");
 				square.transform.localPosition = new Vector3(0f, 0f, 0f);
 			}
 

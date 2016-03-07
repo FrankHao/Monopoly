@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 namespace Monopoly.View {
-	public class ConfirmDialog : MonoBehaviour {
+	public class ConfirmUI : MonoBehaviour {
 
 		public delegate void GenericCallBack();
 
@@ -24,7 +24,7 @@ namespace Monopoly.View {
 			gameObject.SetActive(false);
 		}
 
-		public void UpdateDialogInfo(string title, GenericCallBack cb)
+		public void UpdateInfo(string title, GenericCallBack cb)
 		{
 			titleText.text = title;
 			callback = cb;
