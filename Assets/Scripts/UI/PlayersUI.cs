@@ -11,7 +11,7 @@ namespace Monopoly.View
 		Dictionary<int, GameObject> playerPanels = new Dictionary<int, GameObject>();
 
 		// add player panels by player index.
-		public void AddPlayerPanel(int playerIndex, string name, int cash)
+		public void AddPlayerPanel(int playerIndex, string name, long cash)
 		{
 			if(playerPanels.ContainsKey(playerIndex))
 			{
@@ -27,9 +27,14 @@ namespace Monopoly.View
 			}
 		}
 
-		public void UpdatePlayerPanel(int playerIndex, string name, int cash)
+		public void UpdatePlayerPanel(int playerIndex, string name, long cash)
 		{
 			playerPanels[playerIndex].GetComponent<PlayerPanel>().UpdatePlayerInfo(playerIndex, name, cash);
+		}
+
+		public void UpdatePlayerCash(int playerIndex, long cash)
+		{
+			playerPanels[playerIndex].GetComponent<PlayerPanel>().UpdateCash(cash);
 		}
 	}
 }

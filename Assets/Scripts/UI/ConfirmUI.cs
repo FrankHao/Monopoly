@@ -8,26 +8,32 @@ namespace Monopoly.View {
 		public delegate void GenericCallBack();
 
 		public Text titleText;
-		public GenericCallBack callback = null;
+		public GenericCallBack okCallBack = null;
+		public GenericCallBack cancelCallBack = null;
 
 		public void OnClickOKBtn()
 		{
-			if (callback != null)
+			if (okCallBack != null)
 			{
-				callback();
+				okCallBack();
 			}
 			gameObject.SetActive(false);
 		}
 
 		public void OnClickCancelBtn()
 		{
+			if (cancelCallBack != null)
+			{
+				cancelCallBack();
+			}
 			gameObject.SetActive(false);
 		}
 
-		public void UpdateInfo(string title, GenericCallBack cb)
+		public void UpdateInfo(string title, GenericCallBack okCB, GenericCallBack cancelCB)
 		{
 			titleText.text = title;
-			callback = cb;
+			okCallBack = okCB;
+			cancelCallBack = cancelCB;
 		}
 
 	}

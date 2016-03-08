@@ -10,14 +10,14 @@ namespace Monopoly.View
 		public Text nameText;
 		public Text cashText;
 
-		public void UpdatePlayerInfo(int playerIndex, string name, int cash)
+		public void UpdatePlayerInfo(int playerIndex, string name, long cash)
 		{
 			iconImage.sprite = Resources.Load<Sprite>(string.Format("Images/Players/{0}", playerIndex));
 			nameText.text = name;
 			cashText.text = cash.ToString();
 		}
 
-		public void UpdateCash(int cash)
+		public void UpdateCash(long cash)
 		{
 			cashText.text = cash.ToString();
 		}

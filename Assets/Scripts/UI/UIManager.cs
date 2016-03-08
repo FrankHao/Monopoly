@@ -66,15 +66,22 @@ namespace Monopoly.View
 			playersUI.SetActive(true);
 		}
 
-		public void ShowConfirmUI(ConfirmUI.GenericCallBack callback)
+		public void ShowConfirmUI(string title, 
+			ConfirmUI.GenericCallBack okCallBack, 
+			ConfirmUI.GenericCallBack cancelCallBack)
 		{
 			confirmUI.SetActive(true);
-			confirmUI.GetComponent<ConfirmUI>().UpdateInfo("title", callback);
+			confirmUI.GetComponent<ConfirmUI>().UpdateInfo(title, okCallBack, cancelCallBack);
 		}
 
-		public void AddPlayerInfo(int playerIndex, string name, int cash)
+		public void AddPlayerInfo(int playerIndex, string name, long cash)
 		{
 			playersUI.GetComponent<PlayersUI>().AddPlayerPanel(playerIndex, name, cash);
+		}
+
+		public void UpdatePlayerCash(int playerIndex, long cash)
+		{
+			playersUI.GetComponent<PlayersUI>().UpdatePlayerCash(playerIndex, cash);
 		}
 	}
 

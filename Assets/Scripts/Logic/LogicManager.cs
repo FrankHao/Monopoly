@@ -7,9 +7,13 @@ namespace Monopoly.Model
 	public class LogicManager {
 
 		#region constants
-		public const int SQUARE_COUNT = 40;
+		public const int TOTAL_SQUARE_COUNT = 40;
 		public const int PLAYER_COUNT = 2;
 		public const int START_CASH = 1500;
+		public const int GO_PASS_SALARY = 200;
+		public const int GO_SQAURE_INDEX = 0;
+		public const int SQUARE_COUNT_EACH_SIDE = 10;
+		public const int NO_OWNER_INDEX = -1;
 
 		public const string SQ_PROPERTY = "property";
 		public const string SQ_STATION = "station";
@@ -38,7 +42,7 @@ namespace Monopoly.Model
 		}
 		#endregion
 	
-		public Board board {get; set;}
+		Board board;
 		List<Player> players = new List<Player>();
 		int currentPlayerIndex = 0;
 
@@ -82,9 +86,30 @@ namespace Monopoly.Model
 			return players[playerIndex].PosIndex;
 		}
 
+		public Square GetSquare(int squareIndex)
+		{
+			return board.GetSquareByIndex(squareIndex);
+		}
+
+		public long GetPlayerCash(int playerIndex)
+		{
+			return players[playerIndex].Cash;
+		}
+
 		public int GetCurrentPlayerIndex()
 		{
 			return currentPlayerIndex;
+		}
+
+		public int GetSquareOwnerIndex(int squareIndex)
+		{
+			Square sq = board.GetSquareByIndex(squareIndex);
+			return sq.OwnerIndex;
+		}
+
+		public long GetSquareValue(int squareIndex)
+		{
+			return board.GetSquareByIndex(squareIndex).Value;
 		}
 
 		public void MovePlayer(int delta)
@@ -93,9 +118,16 @@ namespace Monopoly.Model
 			player.Move(delta);
 		}
 
-		public void AddCashToPlayer(int playerIndex, int cashDelta)
+		public long AddCashToPlayer(int playerIndex, long cashDelta)
 		{
 			players[playerIndex].Cash += cashDelta;
+			return players[playerIndex].Cash;
+		}
+
+		public long SubCashFromPlayer(int playerIndex, long cashDelta)
+		{
+			players[playerIndex].Cash -= cashDelta;
+			return players[playerIndex].Cash;
 		}
 
 		public static int[] RollDice()

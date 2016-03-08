@@ -11,47 +11,18 @@ namespace Monopoly.Model
 	public class Player {
 
 		#region properties
-		public string Name {get; set;}
 		public int PlayerIndex {get; set;}
-		private int _cash;
-		public int Cash {
-			get {
-				return _cash;
-			}
-			set {
-				_cash = value;
-				// trigger added cash event.
-				if (addedCashEvent != null)
-				{
-					addedCashEvent(value, this);
-				}
-			}
-		}
-
-		private int _posIndex;
-		public int PosIndex {
-			get {
-				return _posIndex;
-			}
-			set {
-				_posIndex = value;
-
-			}
-		}
+		public string Name {get; set;}
+		public long Cash {get; set;}
+		public int PosIndex {get; set;}
 		#endregion
 
 		#region events
 		public delegate void initPlayer(Player player);
 		public static event initPlayer initPlayerEvent;
 
-		public delegate void movedPlayer(int playerIndex, int srcIndex, int tgtIndex);
+		public delegate void movedPlayer(int playerIndex, List<int> pathList);
 		public static event movedPlayer movedPlayerEvent;
-
-		public delegate void passGoSquare(Player player);
-		public static event passGoSquare passGoSquareEvent;
-
-		public delegate void addedCash(int cashDelta, Player player);
-		public static event addedCash addedCashEvent;
 		#endregion
 
 
@@ -73,37 +44,39 @@ namespace Monopoly.Model
 
 		public void Move(int delta)
 		{
-			int srcIndex = PosIndex;
-			int tgtIndex = PosIndex + delta;
+			// record end square index
+			List<int> pathList = new List<int>();
 
-			// this means pass or arrive GO square.
-			if (tgtIndex >= LogicManager.SQUARE_COUNT)
+			while(delta > 0)
 			{
-				// trigger GO event
-				if (passGoSquareEvent != null)
+				delta--;
+				PosIndex++;
+				// pass corner
+				if (PosIndex % LogicManager.SQUARE_COUNT_EACH_SIDE == 0)
 				{
-					passGoSquareEvent(this);
+					// this is GO square
+					if (PosIndex == LogicManager.TOTAL_SQUARE_COUNT)
+					{
+						PosIndex = 0;
+					}
+					pathList.Add(PosIndex);
 				}
-				// set pos index
-				PosIndex = tgtIndex - LogicManager.SQUARE_COUNT;
 			}
-			else
-			{
-				PosIndex += delta;
-			}
+
+			// record end square index
+			pathList.Add(PosIndex);
 				
 			// trigger moved event
 			if (movedPlayerEvent != null)
 			{
-				movedPlayerEvent(PlayerIndex, srcIndex, PosIndex);
+				movedPlayerEvent(PlayerIndex, pathList);
 			}
 		}
 
 		// set target index directly
 		public void MoveTo(int target)
 		{
-			int srcIndex = PosIndex;
-			if (target >= LogicManager.SQUARE_COUNT || target < 0)
+			if (target >= LogicManager.TOTAL_SQUARE_COUNT || target < 0)
 			{
 				Debug.LogError("target is invalid, " + target.ToString());
 				return;

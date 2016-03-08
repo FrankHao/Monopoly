@@ -26,12 +26,9 @@ namespace Monopoly.Model
 			}
 		}
 
+		// TODO: check index is valid or not
 		public Square GetSquareByIndex(int index)
 		{
-			if (index >= squares.Count)
-			{
-				return null;
-			}
 			return squares[index];
 		}
 	}

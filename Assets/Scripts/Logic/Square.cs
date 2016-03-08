@@ -15,6 +15,15 @@ namespace Monopoly.Model
 		public long Value {get;set;}
 		public string Color {get;set;}
 		public string Type {get;set;}
+		int _ownerIndex = LogicManager.NO_OWNER_INDEX;
+		public int OwnerIndex {
+			get {
+				return _ownerIndex;
+			}
+			set {
+				_ownerIndex = value;
+			}
+		}
 		#endregion
 
 		public delegate void initSquare(Square square);

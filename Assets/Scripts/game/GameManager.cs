@@ -33,20 +33,91 @@ namespace Monopoly.Controller
 
 		void Start() 
 		{
-			// view event handlers
+			// UI event handlers
 			EntryUI.gameStartEvent += EntryUI_gameStartEvent;	
 			RollingUI.rollDiceEvent += RollingUI_rollDiceEvent;
 
-			// model event handlers
+			// logic event handlers
 			Square.initSquareEvent += Square_initSquareEvent;
 			Player.initPlayerEvent += Player_initPlayerEvent;
 			Player.movedPlayerEvent += Player_movedPlayerEvent;
+
+			// game object event handlers
+			PlayerGameObject.passGoEvent += PlayerGameObject_passGoEvent;
+			PlayerGameObject.movingEndEvent += PlayerGameObject_movingEndEvent;
+		}
+
+		void ConfirmBuyCallBack()
+		{
+			int playerIndex = LogicManager.instance.GetCurrentPlayerIndex();
+			int squareIndex = LogicManager.instance.GetPlayerSquareIndex(playerIndex);
+			long value = LogicManager.instance.GetSquareValue(squareIndex);
+			long playerCash = LogicManager.instance.GetPlayerCash(playerIndex);
+			if (value <= playerCash)
+			{
+				long cash = LogicManager.instance.SubCashFromPlayer(playerIndex, value);
+				UIManager.instance.UpdatePlayerCash(playerIndex, cash);
+			}
+
+			LogicManager.instance.GenNextPlayerIndex();
+		}
+
+		void CancelBuyCallBack()
+		{
+			LogicManager.instance.GenNextPlayerIndex();
+		}
+
+		// moving end event handler
+		void PlayerGameObject_movingEndEvent (int playerIndex, int squareIndex)
+		{
+			Square sq = LogicManager.instance.GetSquare(squareIndex);
+			if (sq.Type == LogicManager.SQ_PROPERTY && sq.OwnerIndex == LogicManager.NO_OWNER_INDEX)
+			{
+				string title = string.Format("Do you want to buy this property ? Cost {0}.", sq.Value);
+				UIManager.instance.ShowConfirmUI(title, ConfirmBuyCallBack, CancelBuyCallBack);	
+			}
+			else
+			{
+				Debug.Log("this is " + sq.Type);
+			}
+		}
+
+		// pass Go event handler
+		void PlayerGameObject_passGoEvent (int playerIndex)
+		{
+			// add salary to player
+			long cash = LogicManager.instance.AddCashToPlayer(playerIndex, (long)LogicManager.GO_PASS_SALARY);
+
+			// update cash
+			UIManager.instance.UpdatePlayerCash(playerIndex, cash);
+		}
+
+		// release all events.
+		void OnDestroy()
+		{
+			EntryUI.gameStartEvent -= EntryUI_gameStartEvent;
+			RollingUI.rollDiceEvent -= RollingUI_rollDiceEvent;
+			Square.initSquareEvent -= Square_initSquareEvent;
+			Player.initPlayerEvent -= Player_initPlayerEvent;
+			Player.movedPlayerEvent -= Player_movedPlayerEvent;
+			PlayerGameObject.passGoEvent -= PlayerGameObject_passGoEvent;
 		}
 
 		// moved player event handler
-		void Player_movedPlayerEvent(int playerIndex, int srcIndex, int tgtIndex)
+		void Player_movedPlayerEvent(int playerIndex, List<int> pathList)
 		{
-			MovePlayer(playerIndex, srcIndex, tgtIndex);
+			GameObject playerObj = playerGameObjs[playerIndex];
+
+			// transfer square index list to position vector3 queue
+			Queue<KeyValuePair<int, Vector3>> pathQueue = new Queue<KeyValuePair<int, Vector3>>();
+			foreach(int sqIndex in pathList)
+			{
+				Vector3 pos = GetCenterPositionOnSquare(sqIndex);
+				pathQueue.Enqueue(new KeyValuePair<int, Vector3>(sqIndex, pos));
+			}
+
+			// move player game object
+			playerObj.GetComponent<PlayerGameObject>().Move(pathQueue);
 		}
 
 		// get the center position on specific square, as square pivot is bottom left.
@@ -63,26 +134,14 @@ namespace Monopoly.Controller
 			// create player game object
 			GameObject playerObj = Instantiate(Resources.Load<GameObject>("Prefabs/Game/Player"));
 			playerObj.transform.SetParent(boardGameObj.transform);
-			playerObj.GetComponent<PlayerGameObject>().UpdatePlayerInfo(player.Name, player.Cash);
-			playerObj.transform.localPosition = GetCenterPositionOnSquare(0);
+			playerObj.GetComponent<PlayerGameObject>().PlayerIndex = player.PlayerIndex;
+			playerObj.transform.localPosition = GetCenterPositionOnSquare(LogicManager.GO_SQAURE_INDEX);
 			playerGameObjs.Add(player.PlayerIndex, playerObj);
 
 			// create player UI object
 			UIManager.instance.AddPlayerInfo(player.PlayerIndex, player.Name, player.Cash);
 		}
-
-		// release all events, resources, reference.
-		void OnDestroy()
-		{
-			EntryUI.gameStartEvent -= EntryUI_gameStartEvent;
-			RollingUI.rollDiceEvent -= RollingUI_rollDiceEvent;
-			Square.initSquareEvent -= Square_initSquareEvent;
-			Player.initPlayerEvent -= Player_initPlayerEvent;
-			Player.movedPlayerEvent -= Player_movedPlayerEvent;
-
-			Destroy(boardGameObj);
-		}
-
+			
 		void EntryUI_gameStartEvent ()
 		{
 			GameStart();
@@ -106,7 +165,7 @@ namespace Monopoly.Controller
 			TextAsset boardText = Resources.Load<TextAsset>("JSON/board");
 
 			// init logic data
-			// square game objects will be created in callback event.
+			// square game objects will be created in delegate event.
 			LogicManager.instance.InitGame(boardText.text, InitGameCallBack);
 		}
 
@@ -137,7 +196,7 @@ namespace Monopoly.Controller
 				GameObject prevSquare = squareGameObjs[index-1];
 				float offsetX = 0f;
 				float offsetY = 0f;
-				if (index > 0 && index <= 10)
+				if (index > 0 && index <= LogicManager.SQUARE_COUNT_EACH_SIDE)
 				{
 					squareObj.GetComponent<SpriteRenderer>().sprite = index == 10 ? cornerSquare : normalSquareLay;
 					offsetY = prevSquare.GetComponent<SpriteRenderer>().bounds.size.y;
@@ -155,7 +214,7 @@ namespace Monopoly.Controller
 					squareObj.GetComponent<SpriteRenderer>().sprite = index == 30 ? cornerSquare : normalSquareLay;
 					offsetY = -squareObj.GetComponent<SpriteRenderer>().bounds.size.y;
 				}
-				else if (index >= 31 && index < 40)
+				else if (index >= 31 && index < LogicManager.TOTAL_SQUARE_COUNT)
 				{
 					offsetX = -squareObj.GetComponent<SpriteRenderer>().bounds.size.x;
 				}
@@ -168,30 +227,6 @@ namespace Monopoly.Controller
 			// add to square game object list
 			//squareObj.GetComponent<SquareGameObject>().UpdateInfo(square);
 			squareGameObjs.Add(squareObj);
-		}
-
-		void MovePlayer(int playerIndex, int srcIndex, int tgtIndex)
-		{
-			GameObject playerObj = playerGameObjs[playerIndex];
-			int nextIndex = srcIndex + 1;
-			// pass GO square
-			if (nextIndex == LogicManager.SQUARE_COUNT)
-			{
-				LogicManager.instance.AddCashToPlayer(playerIndex, 200);
-			}
-			else if (nextIndex > LogicManager.SQUARE_COUNT)
-			{
-				nextIndex = nextIndex - LogicManager.SQUARE_COUNT;
-			}
-			//playerObj.transform.localPosition = GetCenterPositionOnSquare(nextIndex);
-			Vector3 startPos = GetCenterPositionOnSquare(srcIndex);
-			Vector3 endPos = GetCenterPositionOnSquare(tgtIndex);
-
-			Debug.Log("start pos is " + startPos);
-			Debug.Log("end pos is " + endPos);
-
-			playerObj.GetComponent<PlayerGameObject>().Move(startPos, endPos);
-			//yield return new WaitForSeconds(1f);
 		}
 
 		// after click dice
