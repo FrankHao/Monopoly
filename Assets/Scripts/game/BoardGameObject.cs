@@ -13,7 +13,6 @@ namespace Monopoly.View
 		// Use this for initialization
 		void Start () {
 
-
 		}
 
 		void InitSquares() 

@@ -9,6 +9,7 @@ namespace Monopoly.Model
 	public class Square {
 
 		#region properties
+		public int PosIndex {get;set;}
 		public string Name {get;set;}
 		public string Desc {get;set;}
 		public long Value {get;set;}
@@ -16,11 +17,12 @@ namespace Monopoly.Model
 		public string Type {get;set;}
 		#endregion
 
-		public delegate void initSquare(Square squareObj, int index);
+		public delegate void initSquare(Square square);
 		public static event initSquare initSquareEvent;
 
 		public Square(int index, Dictionary<string, object> sqDict)
 		{
+			PosIndex = index;
 			Name = (string)sqDict["name"];
 			Desc = (string)sqDict["desc"];
 			Type = (string)sqDict["type"];
@@ -30,7 +32,7 @@ namespace Monopoly.Model
 			// trigger square event to create game object.
 			if (initSquareEvent != null)
 			{
-				initSquareEvent(this, index);
+				initSquareEvent(this);
 			}
 		}
 	}

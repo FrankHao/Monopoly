@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SquareGameObject : MonoBehaviour {
+namespace Monopoly.Controller
+{
+	public class SquareGameObject : MonoBehaviour {
+		public GameObject nameText;
+		public GameObject color;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		//public void UpdateInfo(string name, )
 	}
 }
+
+

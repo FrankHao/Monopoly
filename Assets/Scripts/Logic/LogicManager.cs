@@ -93,6 +93,11 @@ namespace Monopoly.Model
 			player.Move(delta);
 		}
 
+		public void AddCashToPlayer(int playerIndex, int cashDelta)
+		{
+			players[playerIndex].Cash += cashDelta;
+		}
+
 		public static int[] RollDice()
 		{
 			int num1 = UnityEngine.Random.Range(1, 7);

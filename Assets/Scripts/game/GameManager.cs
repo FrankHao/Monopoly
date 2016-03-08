@@ -40,6 +40,22 @@ namespace Monopoly.Controller
 			// model event handlers
 			Square.initSquareEvent += Square_initSquareEvent;
 			Player.initPlayerEvent += Player_initPlayerEvent;
+			Player.movedPlayerEvent += Player_movedPlayerEvent;
+		}
+
+		// moved player event handler
+		void Player_movedPlayerEvent(int playerIndex, int srcIndex, int tgtIndex)
+		{
+			MovePlayer(playerIndex, srcIndex, tgtIndex);
+		}
+
+		// get the center position on specific square, as square pivot is bottom left.
+		Vector3 GetCenterPositionOnSquare(int squareIndex)
+		{
+			GameObject squareObj = squareGameObjs[squareIndex];
+			Vector3 pos = squareObj.transform.localPosition;
+			Vector3 extents = squareObj.GetComponent<SpriteRenderer>().bounds.extents;
+			return new Vector3(pos.x + extents.x, pos.y + extents.y, 0f);
 		}
 
 		void Player_initPlayerEvent (Player player)
@@ -48,6 +64,7 @@ namespace Monopoly.Controller
 			GameObject playerObj = Instantiate(Resources.Load<GameObject>("Prefabs/Game/Player"));
 			playerObj.transform.SetParent(boardGameObj.transform);
 			playerObj.GetComponent<PlayerGameObject>().UpdatePlayerInfo(player.Name, player.Cash);
+			playerObj.transform.localPosition = GetCenterPositionOnSquare(0);
 			playerGameObjs.Add(player.PlayerIndex, playerObj);
 
 			// create player UI object
@@ -61,6 +78,7 @@ namespace Monopoly.Controller
 			RollingUI.rollDiceEvent -= RollingUI_rollDiceEvent;
 			Square.initSquareEvent -= Square_initSquareEvent;
 			Player.initPlayerEvent -= Player_initPlayerEvent;
+			Player.movedPlayerEvent -= Player_movedPlayerEvent;
 
 			Destroy(boardGameObj);
 		}
@@ -98,73 +116,82 @@ namespace Monopoly.Controller
 			boardGameObj.transform.SetParent(gameObject.transform);
 		}
 
-		// use square data to init game object.
-		void Square_initSquareEvent (Square squareObj, int index)
+		void Square_initSquareEvent (Square square)
 		{
-			GameObject square = Instantiate(Resources.Load<GameObject>("Prefabs/Game/Square"));
-			square.transform.SetParent(boardGameObj.transform);
+			int index = square.PosIndex;
+			GameObject squareObj = Instantiate(Resources.Load<GameObject>("Prefabs/Game/Square"));
+			squareObj.transform.SetParent(boardGameObj.transform);
 			Sprite normalSquareLay = Resources.Load<Sprite>("Images/Board/normal_square_lay");
 			Sprite cornerSquare = Resources.Load<Sprite>("Images/Board/corner_square");
 
-			// pace squares on board.
-			float offsetX = 0f;
-			float offsetY = 0f;
-
-			if (index > 0)
+			// start square, is GO square
+			if (index == 0)
 			{
-				GameObject prevSquare = squareGameObjs[index - 1];
-				Vector3 prevBoundSize = prevSquare.GetComponent<SpriteRenderer>().bounds.size;
+				squareObj.GetComponent<SpriteRenderer>().sprite = cornerSquare;
+				squareObj.transform.localPosition = new Vector3(0f, 0f, 0f);
+			}
+
+			// other squares
+			else
+			{
+				GameObject prevSquare = squareGameObjs[index-1];
+				float offsetX = 0f;
+				float offsetY = 0f;
 				if (index > 0 && index <= 10)
 				{
-					square.GetComponent<SpriteRenderer>().sprite = normalSquareLay;
-					if (index == 10)
-					{
-						square.GetComponent<SpriteRenderer>().sprite = cornerSquare;
-					}
-					offsetY = prevBoundSize.y;
+					squareObj.GetComponent<SpriteRenderer>().sprite = index == 10 ? cornerSquare : normalSquareLay;
+					offsetY = prevSquare.GetComponent<SpriteRenderer>().bounds.size.y;
 				}
-				else if( index >= 11 && index <= 20 )
+				else if (index >= 11 && index <= 20)
 				{
 					if (index == 20)
 					{
-						square.GetComponent<SpriteRenderer>().sprite = cornerSquare;
+						squareObj.GetComponent<SpriteRenderer>().sprite = cornerSquare;
 					}
-					offsetX = prevBoundSize.x;
+					offsetX = prevSquare.GetComponent<SpriteRenderer>().bounds.size.x;
 				}
-				else if( index >= 21 && index <= 30 )
+				else if (index >= 21 && index <= 30)
 				{
-					square.GetComponent<SpriteRenderer>().sprite = normalSquareLay;
-					if (index == 30)
-					{
-						square.GetComponent<SpriteRenderer>().sprite = cornerSquare;
-					}
-					offsetY = -square.GetComponent<SpriteRenderer>().bounds.size.y;
+					squareObj.GetComponent<SpriteRenderer>().sprite = index == 30 ? cornerSquare : normalSquareLay;
+					offsetY = -squareObj.GetComponent<SpriteRenderer>().bounds.size.y;
 				}
-				else if( index >= 31 && index < 40 )
+				else if (index >= 31 && index < 40)
 				{
-					offsetX = -square.GetComponent<SpriteRenderer>().bounds.size.x;
+					offsetX = -squareObj.GetComponent<SpriteRenderer>().bounds.size.x;
 				}
 
-				square.transform.localPosition = new Vector3(prevSquare.transform.localPosition.x + offsetX, 
+				squareObj.transform.localPosition = new Vector3(prevSquare.transform.localPosition.x + offsetX, 
 				                                             prevSquare.transform.localPosition.y + offsetY, 
 				                                             0f);
 			}
-			else
-			{
-				square.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Board/corner_square");
-				square.transform.localPosition = new Vector3(0f, 0f, 0f);
-			}
 
-			// add to square game objects list, easy to access.
-			squareGameObjs.Add(square);
+			// add to square game object list
+			//squareObj.GetComponent<SquareGameObject>().UpdateInfo(square);
+			squareGameObjs.Add(squareObj);
 		}
 
-		IEnumerator MovePlayer(int playerIndex)
+		void MovePlayer(int playerIndex, int srcIndex, int tgtIndex)
 		{
 			GameObject playerObj = playerGameObjs[playerIndex];
-			int squareIndex = LogicManager.instance.GetPlayerSquareIndex(playerIndex);
-			playerObj.transform.localPosition = squareGameObjs[squareIndex].transform.localPosition;
-			yield return new WaitForSeconds(1f);
+			int nextIndex = srcIndex + 1;
+			// pass GO square
+			if (nextIndex == LogicManager.SQUARE_COUNT)
+			{
+				LogicManager.instance.AddCashToPlayer(playerIndex, 200);
+			}
+			else if (nextIndex > LogicManager.SQUARE_COUNT)
+			{
+				nextIndex = nextIndex - LogicManager.SQUARE_COUNT;
+			}
+			//playerObj.transform.localPosition = GetCenterPositionOnSquare(nextIndex);
+			Vector3 startPos = GetCenterPositionOnSquare(srcIndex);
+			Vector3 endPos = GetCenterPositionOnSquare(tgtIndex);
+
+			Debug.Log("start pos is " + startPos);
+			Debug.Log("end pos is " + endPos);
+
+			playerObj.GetComponent<PlayerGameObject>().Move(startPos, endPos);
+			//yield return new WaitForSeconds(1f);
 		}
 
 		// after click dice
@@ -176,16 +203,9 @@ namespace Monopoly.Controller
 			// update UI
 			UIManager.instance.UpdateDices(nums);
 
-			// move logic player
+			// move player in logic data, will move game object in event callback.
 			int delta = nums[0] + nums[1];
 			LogicManager.instance.MovePlayer(delta);
-
-			// move game player
-			int playerIndex = LogicManager.instance.GetCurrentPlayerIndex();
-			GameObject playerObj = playerGameObjs[playerIndex];
-			int squareIndex = LogicManager.instance.GetPlayerSquareIndex(playerIndex);
-			playerObj.transform.localPosition = squareGameObjs[squareIndex].transform.localPosition;
-
 		}
 
 	}
