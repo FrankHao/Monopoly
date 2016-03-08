@@ -12,16 +12,6 @@ namespace Monopoly.View
 		public delegate void rollDice();
 		public static event rollDice rollDiceEvent;
 
-		// Use this for initialization
-		void Start () {
-
-		}
-
-		// Update is called once per frame
-		void Update () {
-
-		}
-
 		public void UpdateDices(int num1, int num2)
 		{
 			dice1.GetComponent<Image>().sprite = Resources.Load<Sprite>(string.Format("Images/Dices/NO_{0}", num1));

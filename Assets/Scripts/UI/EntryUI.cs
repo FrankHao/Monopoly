@@ -13,7 +13,10 @@ namespace Monopoly.View
 		public void OnClickPlayBtn()
 		{
 			gameObject.SetActive(false);
-			gameStartEvent();
+			if (gameStartEvent != null)
+			{
+				gameStartEvent();
+			}
 		}
 	}
 }
