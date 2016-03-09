@@ -102,7 +102,7 @@ namespace Monopoly.View
 		public void UpdateCurrentPlayerIndex(int playerIndex)
 		{
 			instance.playersUI.GetComponent<PlayersUI>().UpdateCurrentPlayerIndex(playerIndex);
-			instance.rollingUI.GetComponent<RollingUI>().EnableButton();
+			instance.rollingUI.GetComponent<RollingUI>().EnableRollButton();
 		}
 	}
 

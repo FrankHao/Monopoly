@@ -13,7 +13,7 @@ namespace Monopoly.Controller {
 		int endSquareIndex;
 		Vector3 endPos;
 		bool is_moving = false;
-		float movingSpeed = 4f;
+		float movingSpeed = 6f;
 
 		private int _playerIndex;
 		public int PlayerIndex {

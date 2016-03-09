@@ -33,6 +33,7 @@ namespace Monopoly.Common
 		#region game state
 		public const int GAME_NOT_START = 0;
 		public const int GAME_STARTED = 1;
+		public const int GAME_LIMIT_ROUNDS = 5;
 		#endregion
 
 		#region dice number
@@ -45,5 +46,9 @@ namespace Monopoly.Common
 		public static readonly long[] STATION_RENT_PRICE = {25, 50, 100, 200};
 		public static readonly long[] UTILITY_RENT = {4, 10};
 		#endregion
+
+		public const string HISTORY_ROLL = "ROLL";
+		public const string HISTORY_BUY = "BUY";
+		public const string HISTORY_RENT = "RENT";
 	}
 }

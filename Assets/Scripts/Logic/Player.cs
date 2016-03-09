@@ -33,6 +33,7 @@ namespace Monopoly.Model
 		// holds all owned squares
 		List<Square> ownedSquares = new List<Square>();
 
+
 		public Player(int playerIndex, string name, int cash)
 		{
 			PosIndex = 0;
@@ -48,9 +49,10 @@ namespace Monopoly.Model
 			}
 		}
 
-		public void Move(int delta)
+		public void Move(int[] nums)
 		{
 			// cache moving distance to calc rent fee.
+			int delta = nums[0] + nums[1];
 			MovingDistance = delta;
 
 			// record end square index
@@ -139,6 +141,18 @@ namespace Monopoly.Model
 				bankruptEvent(PlayerIndex);
 			}
 		}
+
+		public List<int> GetOwnedSquareIndex()
+		{
+			List<int> sqs = new List<int>();
+			foreach(Square sq in ownedSquares)
+			{
+				sqs.Add(sq.SquareIndex);
+			}
+			return sqs;
+		}
+
+
 	}
 }
 
