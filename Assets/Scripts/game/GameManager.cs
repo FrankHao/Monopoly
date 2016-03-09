@@ -273,7 +273,7 @@ namespace Monopoly.Controller
 				float offsetY = 0f;
 				if (index > 0 && index <= Constants.SQUARE_COUNT_EACH_SIDE)
 				{
-					squareObj.GetComponent<SpriteRenderer>().sprite = index == 10 ? cornerSquare : normalSquareLay;
+					squareObj.GetComponent<SpriteRenderer>().sprite = (index == 10) ? cornerSquare : normalSquareLay;
 					offsetY = prevSquare.GetComponent<SpriteRenderer>().bounds.size.y;
 				}
 				else if (index >= 11 && index <= 20)
@@ -286,7 +286,7 @@ namespace Monopoly.Controller
 				}
 				else if (index >= 21 && index <= 30)
 				{
-					squareObj.GetComponent<SpriteRenderer>().sprite = index == 30 ? cornerSquare : normalSquareLay;
+					squareObj.GetComponent<SpriteRenderer>().sprite = (index == 30) ? cornerSquare : normalSquareLay;
 					offsetY = -squareObj.GetComponent<SpriteRenderer>().bounds.size.y;
 				}
 				else if (index >= 31 && index < Constants.TOTAL_SQUARE_COUNT)
