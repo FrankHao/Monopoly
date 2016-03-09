@@ -70,7 +70,7 @@ namespace Monopoly.Controller
 			// when things are ready, show UI
 			UIManager.instance.ShowRollingUI();
 			UIManager.instance.ShowPlayersUI();
-			print("Game Start !");
+			//print("Game Start !");
 		}
 
 
@@ -133,7 +133,7 @@ namespace Monopoly.Controller
 			UIManager.instance.ShowPopupUI("Game Over, Result file saved to : " + 
 				Application.persistentDataPath + "/result.txt", 
 				GameOverCallBack);
-			print("Game Over !");
+			//print("Game Over !");
 		}
 
 		void Player_bankruptEvent (int playerIndex)

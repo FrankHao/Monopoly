@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,7 +6,6 @@ using Monopoly.Common;
 
 namespace Monopoly.Model
 {
-	[System.Serializable]
 	public class Player {
 
 		#region properties
@@ -82,18 +80,6 @@ namespace Monopoly.Model
 			{
 				movedPlayerEvent(PlayerIndex, pathList);
 			}
-		}
-
-		// set target index directly
-		// for Goto Jail or something like that.
-		public void MoveTo(int target)
-		{
-			if (target >= Constants.TOTAL_SQUARE_COUNT || target < 0)
-			{
-				Debug.LogError("target is invalid, " + target.ToString());
-				return;
-			}
-			PosIndex = target;
 		}
 
 		// own square and set relationship.

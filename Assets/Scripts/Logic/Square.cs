@@ -7,7 +7,6 @@ using Monopoly.Common;
 namespace Monopoly.Model
 {
 	// Holds square value
-	[System.Serializable]
 	public class Square {
 
 		#region properties
