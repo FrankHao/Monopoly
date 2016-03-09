@@ -1,32 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+using Monopoly.Common;
+
 namespace Monopoly.Model
-{
-			
+{	
 	public class LogicManager {
-
-		#region constants
-		public const int TOTAL_SQUARE_COUNT = 40;
-		public const int PLAYER_COUNT = 2;
-		public const int START_CASH = 1500;
-		public const int GO_PASS_SALARY = 200;
-		public const int GO_SQAURE_INDEX = 0;
-		public const int SQUARE_COUNT_EACH_SIDE = 10;
-		public const int NO_OWNER_INDEX = -1;
-
-		public const string SQ_PROPERTY = "property";
-		public const string SQ_STATION = "station";
-		public const string SQ_WATER = "water";
-		public const string SQ_ELECTRIC = "electric";
-		public const string SQ_JAIL = "jail";
-		public const string SQ_GOTOJAIL = "gotojail";
-		public const string SQ_CHANCE = "chance";
-		public const string SQ_CHEST = "chest";
-		public const string SQ_TAX = "tax";
-		public const string SQ_FREE = "free";
-		public const string SQ_GO = "go";
-		#endregion
 
 		#region singleton
 		// singleton
@@ -44,22 +23,44 @@ namespace Monopoly.Model
 	
 		Board board;
 		List<Player> players = new List<Player>();
-		int currentPlayerIndex = 0;
+		public int State {get; set;}
+
+		private int _currentPlayerIndex;
+		public int CurrentPlayerIndex {
+			get {
+				return _currentPlayerIndex;
+			}
+			// trigger player index change event
+			// to update UI highlight
+			set {
+				_currentPlayerIndex = value;
+				if (setPlayerIndexEvent != null)
+				{
+					setPlayerIndexEvent(_currentPlayerIndex);
+				}
+			}
+		}
 
 		public delegate void GenericCallBack();
 
+		public delegate void setPlayerIndex(int playerIndex);
+		public static event setPlayerIndex setPlayerIndexEvent;
+
 		// init game 
-		public void InitGame(string boardJSON, GenericCallBack callback)
+		public void StartGame(string boardJSON, GenericCallBack callback)
 		{
+			// set state to started.
+			State = Constants.GAME_STARTED;
+
 			// init board, squares
 			board = new Board(boardJSON);
 
 			// init players
-			currentPlayerIndex = 0;
-			for(int i=0; i<PLAYER_COUNT; i++)
+			CurrentPlayerIndex = 0;
+			for(int i=0; i<Constants.PLAYER_COUNT; i++)
 			{
 				string name = string.Format("player{0}", i);
-				Player p = new Player(i, name, START_CASH);
+				Player p = new Player(i, name, Constants.START_CASH);
 				players.Add(p);
 			}
 
@@ -68,17 +69,13 @@ namespace Monopoly.Model
 			{
 				callback();
 			}
-
 		}
 
-		public int GenNextPlayerIndex()
+		public int ChangeTurns()
 		{
-			currentPlayerIndex++;
-			if (currentPlayerIndex >= PLAYER_COUNT)
-			{
-				currentPlayerIndex = 0;
-			}
-			return currentPlayerIndex;
+			int tmp = CurrentPlayerIndex + 1;
+			CurrentPlayerIndex = tmp >= Constants.PLAYER_COUNT ? 0 : tmp;
+			return CurrentPlayerIndex;
 		}
 
 		public int GetPlayerSquareIndex(int playerIndex)
@@ -96,11 +93,6 @@ namespace Monopoly.Model
 			return players[playerIndex].Cash;
 		}
 
-		public int GetCurrentPlayerIndex()
-		{
-			return currentPlayerIndex;
-		}
-
 		public int GetSquareOwnerIndex(int squareIndex)
 		{
 			Square sq = board.GetSquareByIndex(squareIndex);
@@ -114,7 +106,7 @@ namespace Monopoly.Model
 
 		public void MovePlayer(int delta)
 		{
-			Player player = players[currentPlayerIndex];
+			Player player = players[CurrentPlayerIndex];
 			player.Move(delta);
 		}
 
@@ -130,13 +122,38 @@ namespace Monopoly.Model
 			return players[playerIndex].Cash;
 		}
 
-		public static int[] RollDice()
+		public void PlayerOwnSquare(int playerIndex, int squareIndex)
 		{
-			int num1 = UnityEngine.Random.Range(1, 7);
-			int num2 = UnityEngine.Random.Range(1, 7);
-			int[] nums = {num1, num2};
-			return nums;
+			Player ply = instance.players[playerIndex];
+			Square sq = instance.GetSquare(squareIndex);
+			ply.OwnSquare(sq);
 		}
+
+		public long GetRentFee(int playerIndex, int squareIndex)
+		{
+			Square sq = instance.GetSquare(squareIndex);
+			Player mover = instance.players[playerIndex];
+			Player owner = instance.players[sq.OwnerIndex];
+
+			// can be optimized with different sub classes of Square.
+			if (sq.IsProperty())
+			{
+				return sq.GetMortgagePrice() - 20;
+			}
+			else if (sq.IsStation())
+			{
+				int ownedStationCount = owner.GetOwnedSquareCount(Constants.SQ_STATION);
+				return Constants.STATION_RENT_PRICE[ownedStationCount-1];
+			}
+			else if (sq.IsUtility())
+			{
+				int ownedUtilityCount = owner.GetOwnedSquareCount(Constants.SQ_UTITLITY);
+				return Constants.UTILITY_RENT[ownedUtilityCount-1] * mover.MovingDistance;
+			}
+
+			return 0;
+		}
+
 	}
 }
 

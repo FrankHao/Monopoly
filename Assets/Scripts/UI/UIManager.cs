@@ -14,9 +14,12 @@ namespace Monopoly.View
 		{   
 			get 
 			{   
+				// potentially if we have multi scenes
+				// need to take care of duplicated issue, when switch between different scenes.
 				if (_instance == null)
 				{
 					_instance = GameObject.FindObjectOfType<UIManager>();
+					DontDestroyOnLoad(_instance.gameObject);
 				}
 				return _instance;
 			}   
@@ -28,60 +31,66 @@ namespace Monopoly.View
 		GameObject playersUI;
 		GameObject confirmUI;
 
-		void Start()
+		void Awake()
 		{
 			InitUI();
 		}
 			
 		void InitUI()
 		{
-			entryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EntryUI"));
-			entryUI.transform.SetParent(gameObject.transform, false);
+			instance.entryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EntryUI"));
+			instance.entryUI.transform.SetParent(gameObject.transform, false);
 
-			rollingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/RollingUI"));
-			rollingUI.transform.SetParent(gameObject.transform, false);
-			rollingUI.SetActive(false);
+			instance.rollingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/RollingUI"));
+			instance.rollingUI.transform.SetParent(gameObject.transform, false);
+			instance.rollingUI.SetActive(false);
 
-			playersUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PlayersUI"));
-			playersUI.transform.SetParent(gameObject.transform, false);
-			playersUI.SetActive(false);
+			instance.playersUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PlayersUI"));
+			instance.playersUI.transform.SetParent(gameObject.transform, false);
+			instance.playersUI.SetActive(false);
 
-			confirmUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmUI"));
-			confirmUI.transform.SetParent(gameObject.transform, false);
-			confirmUI.SetActive(false);
+			instance.confirmUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmUI"));
+			instance.confirmUI.transform.SetParent(gameObject.transform, false);
+			instance.confirmUI.SetActive(false);
 		}
 			
 		public void UpdateDices(int[] nums)
 		{
-			rollingUI.GetComponent<RollingUI>().UpdateDices(nums[0], nums[1]);
+			instance.rollingUI.GetComponent<RollingUI>().UpdateDices(nums[0], nums[1]);
 		}
 
 		public void ShowRollingUI()
 		{
-			rollingUI.SetActive(true);
+			instance.rollingUI.SetActive(true);
 		}
 
 		public void ShowPlayersUI()
 		{
-			playersUI.SetActive(true);
+			instance.playersUI.SetActive(true);
 		}
 
 		public void ShowConfirmUI(string title, 
 			ConfirmUI.GenericCallBack okCallBack, 
 			ConfirmUI.GenericCallBack cancelCallBack)
 		{
-			confirmUI.SetActive(true);
-			confirmUI.GetComponent<ConfirmUI>().UpdateInfo(title, okCallBack, cancelCallBack);
+			instance.confirmUI.SetActive(true);
+			instance.confirmUI.GetComponent<ConfirmUI>().UpdateInfo(title, okCallBack, cancelCallBack);
 		}
 
 		public void AddPlayerInfo(int playerIndex, string name, long cash)
 		{
-			playersUI.GetComponent<PlayersUI>().AddPlayerPanel(playerIndex, name, cash);
+			instance.playersUI.GetComponent<PlayersUI>().AddPlayerPanel(playerIndex, name, cash);
 		}
 
 		public void UpdatePlayerCash(int playerIndex, long cash)
 		{
-			playersUI.GetComponent<PlayersUI>().UpdatePlayerCash(playerIndex, cash);
+			instance.playersUI.GetComponent<PlayersUI>().UpdatePlayerCash(playerIndex, cash);
+		}
+
+		public void UpdateCurrentPlayerIndex(int playerIndex)
+		{
+			instance.playersUI.GetComponent<PlayersUI>().UpdateCurrentPlayerIndex(playerIndex);
+			instance.rollingUI.GetComponent<RollingUI>().EnableButton();
 		}
 	}
 

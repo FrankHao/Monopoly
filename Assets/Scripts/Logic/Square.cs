@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
+using Monopoly.Common;
 
 namespace Monopoly.Model
 {
@@ -9,13 +11,14 @@ namespace Monopoly.Model
 	public class Square {
 
 		#region properties
-		public int PosIndex {get;set;}
+		public int SquareIndex {get;set;}
 		public string Name {get;set;}
 		public string Desc {get;set;}
 		public long Value {get;set;}
 		public string Color {get;set;}
 		public string Type {get;set;}
-		int _ownerIndex = LogicManager.NO_OWNER_INDEX;
+
+		int _ownerIndex = Constants.NO_OWNER_INDEX;
 		public int OwnerIndex {
 			get {
 				return _ownerIndex;
@@ -31,7 +34,7 @@ namespace Monopoly.Model
 
 		public Square(int index, Dictionary<string, object> sqDict)
 		{
-			PosIndex = index;
+			SquareIndex = index;
 			Name = (string)sqDict["name"];
 			Desc = (string)sqDict["desc"];
 			Type = (string)sqDict["type"];
@@ -44,6 +47,61 @@ namespace Monopoly.Model
 				initSquareEvent(this);
 			}
 		}
+			
+		public long GetRentPrice(string squareType, int diceNum)
+		{
+			long rentFee = 0;
+
+			switch(squareType)
+			{
+			// normal property
+			case Constants.SQ_PROPERTY:
+				rentFee = GetMortgagePrice() - 20;
+				break;
+
+			// station rent 
+			case Constants.SQ_STATION:
+				Random rnd = new Random();
+				rentFee = Constants.STATION_RENT_PRICE[rnd.Next(Constants.STATION_RENT_PRICE.Length)];
+				break;
+		
+			// water or electric
+			case Constants.SQ_UTITLITY:
+				Random rnd2 = new Random();
+				rentFee = rnd2.Next(0, 2) == 0 ? 4 * diceNum : 10 * diceNum;
+				break;
+
+			default:
+				break;
+			}
+			return rentFee;
+		}
+
+		public long GetMortgagePrice()
+		{
+			return Value / 2;
+		}
+
+		public bool IsOwned()
+		{
+			return OwnerIndex == Constants.NO_OWNER_INDEX;
+		}
+
+		public bool IsProperty()
+		{
+			return Type == Constants.SQ_PROPERTY;
+		}
+
+		public bool IsStation()
+		{
+			return Type == Constants.SQ_STATION;
+		}
+
+		public bool IsUtility()
+		{
+			return Type == Constants.SQ_UTITLITY;
+		}
+
 	}
 }
 

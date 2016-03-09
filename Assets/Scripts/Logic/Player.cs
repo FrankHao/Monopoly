@@ -15,6 +15,7 @@ namespace Monopoly.Model
 		public string Name {get; set;}
 		public long Cash {get; set;}
 		public int PosIndex {get; set;}
+		public int MovingDistance {get; set;}
 		#endregion
 
 		#region events
@@ -25,8 +26,8 @@ namespace Monopoly.Model
 		public static event movedPlayer movedPlayerEvent;
 		#endregion
 
-
-		List<int> ownedSquares = new List<int>();
+		// holds all owned squares
+		List<Square> ownedSquares = new List<Square>();
 
 		public Player(int playerIndex, string name, int cash)
 		{
@@ -44,6 +45,9 @@ namespace Monopoly.Model
 
 		public void Move(int delta)
 		{
+			// cache moving distance to calc rent fee.
+			MovingDistance = delta;
+
 			// record end square index
 			List<int> pathList = new List<int>();
 
@@ -52,10 +56,10 @@ namespace Monopoly.Model
 				delta--;
 				PosIndex++;
 				// pass corner
-				if (PosIndex % LogicManager.SQUARE_COUNT_EACH_SIDE == 0)
+				if (PosIndex % Constants.SQUARE_COUNT_EACH_SIDE == 0)
 				{
 					// this is GO square
-					if (PosIndex == LogicManager.TOTAL_SQUARE_COUNT)
+					if (PosIndex == Constants.TOTAL_SQUARE_COUNT)
 					{
 						PosIndex = 0;
 					}
@@ -74,9 +78,10 @@ namespace Monopoly.Model
 		}
 
 		// set target index directly
+		// for Goto Jail or something like that.
 		public void MoveTo(int target)
 		{
-			if (target >= LogicManager.TOTAL_SQUARE_COUNT || target < 0)
+			if (target >= Constants.TOTAL_SQUARE_COUNT || target < 0)
 			{
 				Debug.LogError("target is invalid, " + target.ToString());
 				return;
@@ -84,30 +89,27 @@ namespace Monopoly.Model
 			PosIndex = target;
 		}
 
-		public bool BuyProperty(Square square)
+		// own square and set relationship.
+		public void OwnSquare(Square square)
 		{
-			/*
-			// add to owned squares, only keep index, easy to setup testcase.
-			if (ownedSquares.Contains(square.PosIndex))
-			{
-				return false;
-			}
-
-			if (_cash < square.Value)
-			{
-				return false;
-			}
-			*/
-
-			// TODO: check
-
-			// change cash, trigger cash event
-			//Cash -= square.Value;
-
-			// add property to square list
-			ownedSquares.Add(square.PosIndex);
-			return true;
+			ownedSquares.Add(square);
+			square.OwnerIndex = PlayerIndex;
 		}
+
+		// get specific square type's count
+		public int GetOwnedSquareCount(string sqType)
+		{
+			int count = 0;
+			foreach(Square sq in ownedSquares)
+			{
+				if (sq.Type == sqType)
+				{
+					count++;
+				}
+			}
+			return count;
+		}
+
 	}
 }
 

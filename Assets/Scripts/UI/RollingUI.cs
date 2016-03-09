@@ -6,6 +6,7 @@ namespace Monopoly.View
 {
 	public class RollingUI : MonoBehaviour {
 
+		public GameObject rollBtn;
 		public GameObject dice1;
 		public GameObject dice2;
 
@@ -24,6 +25,13 @@ namespace Monopoly.View
 			{
 				rollDiceEvent();
 			}
+			// disable button, wait until this turn finish.
+			rollBtn.GetComponent<Button>().enabled = false;
+		}
+
+		public void EnableButton()
+		{
+			rollBtn.GetComponent<Button>().enabled = true;
 		}
 	}
 }

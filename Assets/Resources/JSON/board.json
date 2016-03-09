@@ -87,7 +87,7 @@
   },
   {
     "name": "Electric Company",
-    "type": "electric",
+    "type": "utility",
     "desc": "desc",
     "value": 150,
 	"color": "white"
@@ -201,7 +201,7 @@
   },
   {
     "name": "Water Works",
-    "type": "water",
+    "type": "utility",
     "desc": "desc",
     "value": 150,
 	"color": "white"
