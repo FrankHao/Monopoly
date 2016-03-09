@@ -215,10 +215,7 @@ namespace Monopoly.Controller
 			}
 
 			Square sq = LogicManager.instance.GetSquare(squareIndex);
-			print ("gameover " + LogicManager.instance.IsGameOver());
-			Debug.Log(string.Format("player {0} moved to square {1}, index {2}", 
-				playerIndex, sq.Type, sq.SquareIndex));
-			
+						
 			// buyable square : property, station, utitlity
 			if (sq.IsBuyable())
 			{
