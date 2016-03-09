@@ -84,7 +84,7 @@ namespace Monopoly.Model
 
 		public bool IsOwned()
 		{
-			return OwnerIndex == Constants.NO_OWNER_INDEX;
+			return OwnerIndex != Constants.NO_OWNER_INDEX;
 		}
 
 		public bool IsProperty()
@@ -100,6 +100,11 @@ namespace Monopoly.Model
 		public bool IsUtility()
 		{
 			return Type == Constants.SQ_UTITLITY;
+		}
+
+		public bool IsBuyable()
+		{
+			return Type == Constants.SQ_PROPERTY || Type == Constants.SQ_STATION || Type == Constants.SQ_UTITLITY;
 		}
 
 	}

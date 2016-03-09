@@ -16,6 +16,7 @@ namespace Monopoly.Model
 		public long Cash {get; set;}
 		public int PosIndex {get; set;}
 		public int MovingDistance {get; set;}
+		public bool IsBankrupt {get; set;}
 		#endregion
 
 		#region events
@@ -24,6 +25,9 @@ namespace Monopoly.Model
 
 		public delegate void movedPlayer(int playerIndex, List<int> pathList);
 		public static event movedPlayer movedPlayerEvent;
+
+		public delegate void bankrupt(int playerIndex);
+		public static event bankrupt bankruptEvent;
 		#endregion
 
 		// holds all owned squares
@@ -35,6 +39,7 @@ namespace Monopoly.Model
 			PlayerIndex = playerIndex;
 			Name = name;
 			Cash = cash;
+			IsBankrupt = false;
 
 			// trigger init event
 			if (initPlayerEvent != null)
@@ -110,6 +115,30 @@ namespace Monopoly.Model
 			return count;
 		}
 
+		// calc all properties + station + utitlity + cash
+		public long GetTotalValue()
+		{
+			long totalValue = 0;
+			foreach(Square sq in ownedSquares)
+			{
+				if (sq.IsBuyable())
+				{
+					totalValue += sq.GetMortgagePrice();
+				}
+			}
+			totalValue += Cash;
+			return totalValue;
+		}
+
+		// bankrupt
+		public void Bankrupt()
+		{
+			IsBankrupt = true;
+			if (bankruptEvent != null)
+			{
+				bankruptEvent(PlayerIndex);
+			}
+		}
 	}
 }
 

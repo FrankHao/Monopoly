@@ -34,20 +34,20 @@ namespace Monopoly.Model
 			// to update UI highlight
 			set {
 				_currentPlayerIndex = value;
-				if (setPlayerIndexEvent != null)
+				if (changeTurnsEvent != null)
 				{
-					setPlayerIndexEvent(_currentPlayerIndex);
+					changeTurnsEvent(_currentPlayerIndex);
 				}
 			}
 		}
 
 		public delegate void GenericCallBack();
 
-		public delegate void setPlayerIndex(int playerIndex);
-		public static event setPlayerIndex setPlayerIndexEvent;
+		public delegate void changeTurns(int playerIndex);
+		public static event changeTurns changeTurnsEvent;
 
 		// init game 
-		public void StartGame(string boardJSON, GenericCallBack callback)
+		public void GameStart(string boardJSON, GenericCallBack callback)
 		{
 			// set state to started.
 			State = Constants.GAME_STARTED;
@@ -69,6 +69,11 @@ namespace Monopoly.Model
 			{
 				callback();
 			}
+		}
+
+		public void GameOver()
+		{
+			State = Constants.GAME_STARTED;
 		}
 
 		public int ChangeTurns()
@@ -129,6 +134,13 @@ namespace Monopoly.Model
 			ply.OwnSquare(sq);
 		}
 
+		public bool IsAffordable(int playerIndex, int squareIndex)
+		{
+			Player ply = instance.players[playerIndex];
+			long rentFee = instance.GetRentFee(playerIndex, squareIndex);
+			return rentFee <= ply.GetTotalValue();
+		}
+
 		public long GetRentFee(int playerIndex, int squareIndex)
 		{
 			Square sq = instance.GetSquare(squareIndex);
@@ -153,6 +165,27 @@ namespace Monopoly.Model
 
 			return 0;
 		}
+
+		public void PlayerBankrupt(int playerIndex)
+		{
+			Player ply = players[playerIndex];
+			ply.Bankrupt();
+		}
+
+		public bool ReadyToGameOver()
+		{
+			int alivePlayerCount = 0;
+			foreach(Player ply in players)
+			{
+				if (!ply.IsBankrupt)
+				{
+					alivePlayerCount++;
+				}
+			}
+			return alivePlayerCount == 1;
+		}
+
+
 
 	}
 }

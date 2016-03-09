@@ -44,12 +44,22 @@ namespace Monopoly.Controller
 			Square.initSquareEvent += Square_initSquareEvent;
 			Player.initPlayerEvent += Player_initPlayerEvent;
 			Player.movedPlayerEvent += Player_movedPlayerEvent;
-			LogicManager.setPlayerIndexEvent += LogicManager_setPlayerIndexEvent;
+			Player.bankruptEvent += Player_bankruptEvent;
+			LogicManager.changeTurnsEvent += LogicManager_changeTurnsEvent;
 
 			// game object event handlers
 			PlayerGameObject.passGoEvent += PlayerGameObject_passGoEvent;
 			PlayerGameObject.movingEndEvent += PlayerGameObject_movingEndEvent;
 
+		}
+
+		void Player_bankruptEvent (int playerIndex)
+		{
+			if (LogicManager.instance.ReadyToGameOver())
+			{
+				// update UI
+				LogicManager.instance.GameOver();
+			}
 		}
 
 		// release all events.
@@ -60,12 +70,13 @@ namespace Monopoly.Controller
 			Square.initSquareEvent -= Square_initSquareEvent;
 			Player.initPlayerEvent -= Player_initPlayerEvent;
 			Player.movedPlayerEvent -= Player_movedPlayerEvent;
-			LogicManager.setPlayerIndexEvent -= LogicManager_setPlayerIndexEvent;
+			Player.bankruptEvent -= Player_bankruptEvent;
+			LogicManager.changeTurnsEvent -= LogicManager_changeTurnsEvent;
 			PlayerGameObject.passGoEvent -= PlayerGameObject_passGoEvent;
 			PlayerGameObject.movingEndEvent -= PlayerGameObject_movingEndEvent;
 		}
 
-		void LogicManager_setPlayerIndexEvent (int playerIndex)
+		void LogicManager_changeTurnsEvent (int playerIndex)
 		{
 			// update current player index
 			UIManager.instance.UpdateCurrentPlayerIndex(playerIndex);
@@ -88,7 +99,6 @@ namespace Monopoly.Controller
 				// update UI
 				UIManager.instance.UpdatePlayerCash(playerIndex, cash);
 			}
-
 			LogicManager.instance.ChangeTurns();
 		}
 
@@ -100,15 +110,55 @@ namespace Monopoly.Controller
 			LogicManager.instance.ChangeTurns();
 		}
 
+		void PopupRentCallBack()
+		{
+			LogicManager.instance.ChangeTurns();
+		}
+
 		// moving end event handler
 		void PlayerGameObject_movingEndEvent (int playerIndex, int squareIndex)
 		{
 			Square sq = LogicManager.instance.GetSquare(squareIndex);
-			// property square
-			if (sq.Type == Constants.SQ_PROPERTY && sq.IsOwned() == false)
+			Debug.Log(string.Format("player={0} moved end, arrived square={1}, index={2}", 
+				playerIndex, sq.Type, sq.SquareIndex));
+
+			// buyable square : property, station, utitlity
+			if (sq.IsBuyable())
 			{
-				string title = string.Format("Do you want to buy this property ? Cost {0}.", sq.Value);
-				UIManager.instance.ShowConfirmUI(title, ConfirmBuyCallBack, CancelBuyCallBack);	
+				// hasn't been owned
+				if (!sq.IsOwned())
+				{
+					string title = string.Format("Do you want to buy this property ? Cost {0}.", sq.Value);
+					UIManager.instance.ShowConfirmUI(title, ConfirmBuyCallBack, CancelBuyCallBack);	
+				}
+				// owned by other players
+				else if (sq.IsOwned() && sq.OwnerIndex != playerIndex)
+				{
+					// if not affordable, player bankrupts.
+					if (!LogicManager.instance.IsAffordable(playerIndex, squareIndex))
+					{
+						LogicManager.instance.PlayerBankrupt(playerIndex);
+						return;
+					}
+					
+					long rentFee = LogicManager.instance.GetRentFee(playerIndex, squareIndex);
+					string title = string.Format("You have to pay {0} for rent.", rentFee);
+
+					// sub cash
+					long cash = LogicManager.instance.SubCashFromPlayer(playerIndex, rentFee);
+
+					// update player UI
+					UIManager.instance.UpdatePlayerCash(playerIndex, cash);
+
+					// popup dialog UI
+					UIManager.instance.ShowPopupUI(title, PopupRentCallBack);
+				}
+				// owned by self, can do improvement.
+				else if (sq.IsOwned() && sq.OwnerIndex == playerIndex)
+				{
+					Debug.Log("arrived self square");
+					LogicManager.instance.ChangeTurns();
+				}
 			}
 			else
 			{
@@ -120,15 +170,13 @@ namespace Monopoly.Controller
 		// pass Go event handler
 		void PlayerGameObject_passGoEvent (int playerIndex)
 		{
-			// add salary to player
+			// add GO salary to player
 			long cash = LogicManager.instance.AddCashToPlayer(playerIndex, (long)Constants.GO_PASS_SALARY);
 
 			// update cash
 			UIManager.instance.UpdatePlayerCash(playerIndex, cash);
 		}
-
-
-
+			
 		// moved player event handler
 		void Player_movedPlayerEvent(int playerIndex, List<int> pathList)
 		{
@@ -176,7 +224,7 @@ namespace Monopoly.Controller
 			}
 		}
 
-		void StartGameCallBack()
+		void GameStartCallBack()
 		{
 			// when things are ready, show UI
 			UIManager.instance.ShowRollingUI();
@@ -193,7 +241,7 @@ namespace Monopoly.Controller
 
 			// init logic data
 			// square game objects will be created in delegate event.
-			LogicManager.instance.StartGame(boardText.text, StartGameCallBack);
+			LogicManager.instance.GameStart(boardText.text, GameStartCallBack);
 		}
 
 		void InitBoard()

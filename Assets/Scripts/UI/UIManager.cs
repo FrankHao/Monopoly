@@ -30,6 +30,7 @@ namespace Monopoly.View
 		GameObject rollingUI;
 		GameObject playersUI;
 		GameObject confirmUI;
+		GameObject popupUI;
 
 		void Awake()
 		{
@@ -52,6 +53,11 @@ namespace Monopoly.View
 			instance.confirmUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmUI"));
 			instance.confirmUI.transform.SetParent(gameObject.transform, false);
 			instance.confirmUI.SetActive(false);
+
+			instance.popupUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PopupUI"));
+			instance.popupUI.transform.SetParent(gameObject.transform, false);
+			instance.popupUI.SetActive(false);
+
 		}
 			
 		public void UpdateDices(int[] nums)
@@ -67,6 +73,12 @@ namespace Monopoly.View
 		public void ShowPlayersUI()
 		{
 			instance.playersUI.SetActive(true);
+		}
+
+		public void ShowPopupUI(string title, PopupUI.GenericCallBack callback)
+		{
+			instance.popupUI.GetComponent<PopupUI>().UpdateInfo(title, callback);
+			instance.popupUI.SetActive(true);
 		}
 
 		public void ShowConfirmUI(string title, 
