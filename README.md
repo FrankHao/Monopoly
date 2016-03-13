@@ -1,6 +1,3 @@
-Software Engineer Test README - Frank Hao
-
-
 1. Project architecture
 
 	Whole project is briefly set 4 parts : 
@@ -12,7 +9,7 @@ Software Engineer Test README - Frank Hao
 			- Square
 			- Player
 
-	Models are data holders, anytime, when models changed data, will trigger a event to update specific views. 
+		Models are data holders, anytime, when models changed data, will trigger a event to update specific views. 
 
 	- Views (2-4 hours)
 	Include 2 sub parts, one is UI objects, which has UI prefabs and C# codes:
@@ -41,8 +38,6 @@ Software Engineer Test README - Frank Hao
 
 	GameManager can call LogicManager and UIManager's methods directly, but LogicManager and UIManager only fire event to trigger callback in GameManager, as Models and Views should not control controller.
 
-	Views 	<---------  Controller(GameManager) ---------->		Models
-			- - - - ->							<- - - - -	
 
 	- Common (1/2 hour)
 	Put utilities, contants and other 3rd part library code here.
@@ -74,6 +69,3 @@ Software Engineer Test README - Frank Hao
 
 
 By Frank
-
-	
-
