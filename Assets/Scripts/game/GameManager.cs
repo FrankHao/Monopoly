@@ -34,6 +34,8 @@ namespace Monopoly.Controller
         #endregion
 
         public bool IsAutoMode { get; set; }
+        public List<GameObject> SquareGameObjects { get { return squareGameObjs; } }
+
         GameObject boardGameObj;
         List<GameObject> squareGameObjs = new List<GameObject>();
         Dictionary<int, GameObject> playerGameObjs = new Dictionary<int, GameObject>();
@@ -378,6 +380,7 @@ namespace Monopoly.Controller
             squareObj.transform.SetParent(instance.boardGameObj.transform);
             squareObj.name = string.Format("Square {0}", square.SquareIndex.ToString("D2"));
 
+            Constants.Direction direction = Constants.Direction.DOWN;
             // start square, is GO square
             if (index == 0)
             {
@@ -398,24 +401,30 @@ namespace Monopoly.Controller
                 if (index > 0 && index <= Constants.SQUARE_COUNT_EACH_SIDE)
                 {
                     offsetX = -squareObj.GetComponent<SpriteRenderer>().bounds.size.x;
+                    direction = Constants.Direction.UP;
                 }
                 else if (index >= 11 && index <= 20)
                 {
                     offsetY = prevSquare.GetComponent<SpriteRenderer>().bounds.size.y;
+                    direction = Constants.Direction.RIGHT;
                 }
                 else if (index >= 21 && index <= 30)
                 {
                     offsetX = prevSquare.GetComponent<SpriteRenderer>().bounds.size.x;
+                    direction = Constants.Direction.DOWN;
                 }
                 else if (index >= 31 && index < Constants.TOTAL_SQUARE_COUNT)
                 {
                     offsetY = -squareObj.GetComponent<SpriteRenderer>().bounds.size.y;
+                    direction = Constants.Direction.LEFT;
                 }
 
                 squareObj.transform.localPosition = new Vector3(prevSquare.transform.localPosition.x + offsetX,
                                                              prevSquare.transform.localPosition.y + offsetY,
                                                              0f);
             }
+            SquareGameObject sgo = squareObj.GetComponent<SquareGameObject>();
+            sgo?.AdjustLocation(direction);
 
             // add to square game object list
             instance.squareGameObjs.Add(squareObj);
