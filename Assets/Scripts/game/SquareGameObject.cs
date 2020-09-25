@@ -22,6 +22,15 @@ namespace Monopoly.Controller
             AssignColor(new Color(0, 0, 0, 0));
         }
 
+        private void Start()
+        {
+            BoxCollider2D coll = gameObject.AddComponent<BoxCollider2D>();
+            SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+            coll.size = spr.sprite.bounds.size;
+            coll.offset = spr.sprite.bounds.center;
+        }
+
+
         public void AssignOwner(int playerIdx)
         {
             AssignColor(UIManager.instance.OwnerColor[playerIdx]);
@@ -51,6 +60,11 @@ namespace Monopoly.Controller
         void AssignColor(Color color)
         {
             OwnerDot.color = color;
+        }
+
+        private void OnMouseDown()
+        {
+            Debug.Log($"{name} is clicked");
         }
     }
 }

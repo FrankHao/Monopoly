@@ -8,16 +8,22 @@ using Monopoly.Controller;
 namespace Monopoly.Model
 {
     // Holds square value
+    [Serializable]
     public class Square
     {
-
-        #region properties
         public int SquareIndex { get; set; }
         public string Name { get; set; }
         public string Desc { get; set; }
         public long Value { get; set; }
         public string Color { get; set; }
         public string Type { get; set; }
+        public int Rent { get; set; }
+        public int Rent1h { get; set; }
+        public int Rent2h { get; set; }
+        public int Rent3h { get; set; }
+        public int Rent4h { get; set; }
+        public int RentHotel { get; set; }
+        public int BuildCost { get; set; }
 
         int _ownerIndex = Constants.NO_OWNER_INDEX;
         public int OwnerIndex
@@ -32,19 +38,32 @@ namespace Monopoly.Model
                 AssignOwner(_ownerIndex);
             }
         }
-        #endregion
-
         public delegate void initSquare(Square square);
         public static event initSquare initSquareEvent;
 
         public Square(int index, Dictionary<string, object> sqDict)
         {
             SquareIndex = index;
-            Name = (string)sqDict["name"];
-            Desc = (string)sqDict["desc"];
-            Type = (string)sqDict["type"];
-            Color = (string)sqDict["color"];
-            Value = (long)sqDict["value"];
+            try
+            {
+                Name = (string)sqDict["name"];
+                Desc = (string)sqDict["desc"];
+                Type = (string)sqDict["type"];
+                Color = (string)sqDict["color"];
+                Value = (long)sqDict["value"];
+
+                Rent = (int)sqDict["Rent"];
+                Rent1h = (int)sqDict["Rent1h"];
+                Rent2h = (int)sqDict["Rent2h"];
+                Rent3h = (int)sqDict["Rent3h"];
+                Rent4h = (int)sqDict["Rent4h"];
+                RentHotel = (int)sqDict["RentHotel"];
+                BuildCost = (int)sqDict["Build"];
+            }
+            catch
+            {
+
+            }
 
             // trigger square event to create game object.
             if (initSquareEvent != null)
