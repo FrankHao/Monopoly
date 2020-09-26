@@ -11,7 +11,7 @@ namespace Monopoly.View
         public delegate void gameStart();
         public static event gameStart gameStartEvent;
 
-        [SerializeField] GameObject playButton;
+        [SerializeField] GameObject playButton = null;
 
         public void OnClickPlayBtn()
         {

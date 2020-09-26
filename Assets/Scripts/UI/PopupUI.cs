@@ -6,11 +6,16 @@ namespace Monopoly.View
 {
     public class PopupUI : MonoBehaviour
     {
-
-        public GameObject okBtn;
+        Button OKButton;
         public Text titleText;
         public delegate void GenericCallBack();
         protected GenericCallBack cb;
+
+        private void Awake()
+        {
+            OKButton = GetComponentInChildren<Button>();
+            OKButton.onClick.AddListener(OnClickOKBtn);
+        }
 
         public void UpdateInfo(string title, GenericCallBack callback)
         {
@@ -18,7 +23,7 @@ namespace Monopoly.View
             cb = callback;
         }
 
-        public virtual void OnClickOKBtn()
+        protected virtual void OnClickOKBtn()
         {
             if (cb != null)
             {

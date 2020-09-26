@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Monopoly.Model;
+using Monopoly.Common;
 
 namespace Monopoly.View
 {
@@ -17,24 +18,9 @@ namespace Monopoly.View
         public Text HotelCost;
         public Text Footer;
 
-        static readonly Dictionary<string, Color> ColorDict = new Dictionary<string, Color>()
-        {
-            {"red", Color.red },
-            {"black", Color.black },
-            {"magnenta", Color.magenta },
-            {"white", Color.white },
-            {"yellow", Color.yellow },
-            {"green", new Color(20f/255f,169f/255f,84f/255f) },
-            {"pink", new Color(215f/255f,48f/255f,137f/255f) },
-            {"cyan", new Color(151f/255f,240f/255f,248f/255f) },
-            {"orange", new Color(245f/255f,152f/255f,84f/255f) },
-            {"brown", new Color(186/255f,141/255f,80f/255f) },
-            {"blue", new Color(0,104f/255f,176f/255f) }
-        };
-
         public void SetCard(Square square, GenericCallBack callback = null)
         {
-            SmallTitle.text = "TITLE DEED";
+            SmallTitle.text = square.Type.ToUpper().Trim();
             titleText.text = square.Name.ToUpper().Trim();
             SingleRent.text = "RENT $" + square.Rent;
             rentRows[0].ItemName.text = "WITH 1 HOUSE"; rentRows[0].Price.text = "$" + square.Rent1h.ToString();
@@ -46,13 +32,13 @@ namespace Monopoly.View
             HouseCost.text = $"HOUSES COST ${square.BuildCost} EACH";
             HotelCost.text = $"HOTELS {square.BuildCost} PLUS 4 HOUSES";
             Footer.text = "IF A PLAYER OWNS ALL THE LOTS OF ANY COLOR-GROUP, THEN RENT IS DOUBLED ON UNIMPROVED LOTS IN THAT GROUP.";
-            if (ColorDict.ContainsKey(square.Color))
+            if (Constants.ColorDict.ContainsKey(square.Color))
             {
-                Banner.color = ColorDict[square.Color];
+                Banner.color = Constants.ColorDict[square.Color];
             }
         }
 
-        public override void OnClickOKBtn()
+        protected override void OnClickOKBtn()
         {
             if (cb != null)
             {

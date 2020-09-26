@@ -7,7 +7,7 @@ namespace Monopoly.Controller
     public class SquareGameObject : MonoBehaviour
     {
         [SerializeField]
-        SpriteRenderer OwnerDot;
+        SpriteRenderer OwnerDot = null;
 
         public int SquareIndex { get; set; }
 
@@ -67,7 +67,7 @@ namespace Monopoly.Controller
         private void OnMouseDown()
         {
             Debug.Log($"{name} is clicked, squareIndex = {SquareIndex}");
-            UIManager.instance.ShowPropertyUI(SquareIndex);
+            UIManager.instance.ShowSquareDescription(SquareIndex);
         }
     }
 }

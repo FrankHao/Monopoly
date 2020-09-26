@@ -35,7 +35,7 @@ namespace Monopoly.View
         GameObject playersUI;
         GameObject confirmUI;
         GameObject popupUI;
-        GameObject PropertyCardUI;
+        GameObject squareShowingObject;
 
         void Awake()
         {
@@ -86,16 +86,45 @@ namespace Monopoly.View
             instance.popupUI.SetActive(true);
         }
 
-        public void ShowPropertyUI(int squareNumber)
+        public void ShowSquareDescription(int squareNumber)
         {
-            if (instance.PropertyCardUI != null) { return; }
+            if (instance.squareShowingObject != null) { return; }
 
-            instance.PropertyCardUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PropertyCardUI"));
-            instance.PropertyCardUI.transform.SetParent(gameObject.transform, false);
             Square square = LogicManager.instance.GetSquare(squareNumber);
-            PropertyCardUI card = instance.PropertyCardUI.GetComponent<PropertyCardUI>();
-            card.SetCard(square);
-            instance.PropertyCardUI.SetActive(true);
+            switch (square.Type)
+            {
+                case "property":
+                    instance.squareShowingObject = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PropertyCardUI"));
+                    PropertyCardUI card = instance.squareShowingObject.GetComponent<PropertyCardUI>();
+                    instance.squareShowingObject.transform.SetParent(gameObject.transform, false);
+                    card.SetCard(square);
+                    break;
+                case "chance":
+                case "chest":
+                case "tax":
+                    return;
+                case "go":
+                case "free":
+                    return;
+                case "gotojail":
+                case "jail":
+                    return;
+                case "railroad":
+                    instance.squareShowingObject = Instantiate(Resources.Load<GameObject>("Prefabs/UI/RailroadCardUI"));
+                    RailroadCardUI rc = instance.squareShowingObject.GetComponent<RailroadCardUI>();
+                    instance.squareShowingObject.transform.SetParent(gameObject.transform, false);
+                    rc.SetCard(square);
+                    break;
+
+                default:
+                    instance.squareShowingObject = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GenericCardUI"));
+                    GenericCardUI gc = instance.squareShowingObject.GetComponent<GenericCardUI>();
+                    instance.squareShowingObject.transform.SetParent(gameObject.transform, false);
+                    gc.SetCard(square);
+                    break;
+            }
+
+            instance.squareShowingObject.SetActive(true);
         }
 
         public void ShowConfirmUI(string title,

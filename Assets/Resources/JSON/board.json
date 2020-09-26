@@ -170,7 +170,7 @@
     {
         "name": "Electric Company",
         "type": "utility",
-        "desc": "desc",
+        "desc": "If ONE Utility is owned, rent is 4x the number on the dice which landed the player on the utility, but if BOTH Utilities are owned, rent is 10x the amount shown on the dice.",
         "color": "white",
         "value": 150,
         "Rent": null,
@@ -394,7 +394,7 @@
     {
         "name": "Water Works",
         "type": "utility",
-        "desc": "desc",
+        "desc": "If ONE Utility is owned, rent is 4x the amount shown on the dice when the opponent rolled, but if BOTH Utilities are owned, rent is 10x the amount shown on the dice.",
         "color": "white",
         "value": 150,
         "Rent": null,

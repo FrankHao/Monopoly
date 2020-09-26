@@ -232,7 +232,7 @@ namespace Monopoly.Controller
                     }
                     else
                     {
-                        string title = string.Format("Do you want to buy this property ? Cost {0}.", sq.Value);
+                        string title = string.Format("Do you want to buy this property ? Cost ${0}.", sq.Value);
                         UIManager.instance.ShowConfirmUI(title, ConfirmBuyCallBack, CancelBuyCallBack);
                     }
                 }
@@ -247,7 +247,7 @@ namespace Monopoly.Controller
                     }
 
                     long rentFee = LogicManager.instance.GetRentFee(playerIndex, squareIndex);
-                    string title = string.Format("You have to pay {0} for rent.", rentFee);
+                    string title = string.Format("You have to pay ${0} for rent.", rentFee);
 
                     // sub cash
                     long cash = LogicManager.instance.SubCashFromPlayer(playerIndex, rentFee);
