@@ -9,6 +9,8 @@ namespace Monopoly.Controller
         [SerializeField]
         SpriteRenderer OwnerDot;
 
+        public int SquareIndex { get; set; }
+
         static readonly Vector3[] LocalPositions = new Vector3[] {
             new Vector3(.65f, 2f, 0), // UP
             new Vector3(2f, .65f, 0), // Right
@@ -64,7 +66,8 @@ namespace Monopoly.Controller
 
         private void OnMouseDown()
         {
-            Debug.Log($"{name} is clicked");
+            Debug.Log($"{name} is clicked, squareIndex = {SquareIndex}");
+            UIManager.instance.ShowPropertyUI(SquareIndex);
         }
     }
 }

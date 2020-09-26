@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Monopoly.Model;
+using Monopoly.Controller;
 
 namespace Monopoly.View
 {
@@ -33,6 +35,7 @@ namespace Monopoly.View
         GameObject playersUI;
         GameObject confirmUI;
         GameObject popupUI;
+        GameObject PropertyCardUI;
 
         void Awake()
         {
@@ -81,6 +84,18 @@ namespace Monopoly.View
         {
             instance.popupUI.GetComponent<PopupUI>().UpdateInfo(title, callback);
             instance.popupUI.SetActive(true);
+        }
+
+        public void ShowPropertyUI(int squareNumber)
+        {
+            if (instance.PropertyCardUI != null) { return; }
+
+            instance.PropertyCardUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/PropertyCardUI"));
+            instance.PropertyCardUI.transform.SetParent(gameObject.transform, false);
+            Square square = LogicManager.instance.GetSquare(squareNumber);
+            PropertyCardUI card = instance.PropertyCardUI.GetComponent<PropertyCardUI>();
+            card.SetCard(square);
+            instance.PropertyCardUI.SetActive(true);
         }
 
         public void ShowConfirmUI(string title,

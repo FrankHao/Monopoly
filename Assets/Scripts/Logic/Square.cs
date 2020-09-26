@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using Monopoly.Common;
@@ -11,19 +10,20 @@ namespace Monopoly.Model
     [Serializable]
     public class Square
     {
+
         public int SquareIndex { get; set; }
         public string Name { get; set; }
         public string Desc { get; set; }
         public long Value { get; set; }
         public string Color { get; set; }
         public string Type { get; set; }
-        public int Rent { get; set; }
-        public int Rent1h { get; set; }
-        public int Rent2h { get; set; }
-        public int Rent3h { get; set; }
-        public int Rent4h { get; set; }
-        public int RentHotel { get; set; }
-        public int BuildCost { get; set; }
+        public long Rent { get; set; }
+        public long Rent1h { get; set; }
+        public long Rent2h { get; set; }
+        public long Rent3h { get; set; }
+        public long Rent4h { get; set; }
+        public long RentHotel { get; set; }
+        public long BuildCost { get; set; }
 
         int _ownerIndex = Constants.NO_OWNER_INDEX;
         public int OwnerIndex
@@ -44,6 +44,7 @@ namespace Monopoly.Model
         public Square(int index, Dictionary<string, object> sqDict)
         {
             SquareIndex = index;
+
             try
             {
                 Name = (string)sqDict["name"];
@@ -52,13 +53,13 @@ namespace Monopoly.Model
                 Color = (string)sqDict["color"];
                 Value = (long)sqDict["value"];
 
-                Rent = (int)sqDict["Rent"];
-                Rent1h = (int)sqDict["Rent1h"];
-                Rent2h = (int)sqDict["Rent2h"];
-                Rent3h = (int)sqDict["Rent3h"];
-                Rent4h = (int)sqDict["Rent4h"];
-                RentHotel = (int)sqDict["RentHotel"];
-                BuildCost = (int)sqDict["Build"];
+                Rent = (long)sqDict["Rent"];
+                Rent1h = (long)sqDict["Rent1h"];
+                Rent2h = (long)sqDict["Rent2h"];
+                Rent3h = (long)sqDict["Rent3h"];
+                Rent4h = (long)sqDict["Rent4h"];
+                RentHotel = (long)sqDict["RentHotel"];
+                BuildCost = (long)sqDict["Build"];
             }
             catch
             {

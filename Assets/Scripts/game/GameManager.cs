@@ -424,7 +424,8 @@ namespace Monopoly.Controller
                                                              0f);
             }
             SquareGameObject sgo = squareObj.GetComponent<SquareGameObject>();
-            sgo?.AdjustLocation(direction);
+            sgo.AdjustLocation(direction);
+            sgo.SquareIndex = index;
 
             // add to square game object list
             instance.squareGameObjs.Add(squareObj);
