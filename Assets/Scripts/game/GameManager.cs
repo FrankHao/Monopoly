@@ -294,6 +294,7 @@ namespace Monopoly.Controller
         // pass Go event handler
         void PlayerGameObject_passGoEvent(int playerIndex)
         {
+            Debug.Log("Passing Go, collecting " + Constants.GO_PASS_SALARY);
             // add GO salary to player
             long cash = LogicManager.instance.AddCashToPlayer(playerIndex, (long)Constants.GO_PASS_SALARY);
 

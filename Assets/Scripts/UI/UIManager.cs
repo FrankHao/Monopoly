@@ -109,7 +109,7 @@ namespace Monopoly.View
                 case "gotojail":
                 case "jail":
                     return;
-                case "railroad":
+                case "station":
                     instance.squareShowingObject = Instantiate(Resources.Load<GameObject>("Prefabs/UI/RailroadCardUI"));
                     RailroadCardUI rc = instance.squareShowingObject.GetComponent<RailroadCardUI>();
                     instance.squareShowingObject.transform.SetParent(gameObject.transform, false);
