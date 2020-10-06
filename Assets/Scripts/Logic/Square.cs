@@ -132,6 +132,16 @@ namespace Monopoly.Model
             return Type == Constants.SQ_PROPERTY || Type == Constants.SQ_STATION || Type == Constants.SQ_UTITLITY;
         }
 
+        public bool IsJail()
+        {
+            return Type == Constants.SQ_JAIL;
+        }
+
+        public bool IsGotoJail()
+        {
+            return Type == Constants.SQ_GOTOJAIL;
+        }
+
         private void AssignOwner(int ownIdx)
         {
             SquareGameObject sgo = GameManager.instance.SquareGameObjects[SquareIndex].GetComponent<SquareGameObject>();

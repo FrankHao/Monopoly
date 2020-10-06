@@ -78,12 +78,16 @@ namespace Monopoly.Controller
 
         public void Move(Queue<KeyValuePair<int, Vector3>> pathQueue)
         {
+            Debug.Log("PlayerGameObject move. path Queue = " + pathQueue.Count);
+
             movingPath = pathQueue;
             KeyValuePair<int, Vector3> kv = pathQueue.Dequeue();
             endPos = kv.Value;
             endSquareIndex = kv.Key;
             is_moving = true;
 
+
+            Debug.Log($"localposition:{transform.localPosition} moving toward {endPos}");
             // check GO square
             if (kv.Key == Constants.GO_SQAURE_INDEX)
             {
@@ -92,6 +96,11 @@ namespace Monopoly.Controller
                     passGoEvent(PlayerIndex);
                 }
             }
+        }
+
+        public void JumpTo(Vector3 targetPos)
+        {
+            TweenUtil.TweenPosition(transform, targetPos);
         }
     }
 }

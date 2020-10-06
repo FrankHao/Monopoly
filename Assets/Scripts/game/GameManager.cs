@@ -51,6 +51,7 @@ namespace Monopoly.Controller
             Square.initSquareEvent += Square_initSquareEvent;
             Player.initPlayerEvent += Player_initPlayerEvent;
             Player.movedPlayerEvent += Player_movedPlayerEvent;
+            Player.movedToJailEvent += Player_jumpToIndex;
             Player.bankruptEvent += Player_bankruptEvent;
             LogicManager.changeTurnsEvent += LogicManager_changeTurnsEvent;
             LogicManager.gameStartEvent += LogicManager_gameStartEvent;
@@ -156,6 +157,7 @@ namespace Monopoly.Controller
             Square.initSquareEvent -= Square_initSquareEvent;
             Player.initPlayerEvent -= Player_initPlayerEvent;
             Player.movedPlayerEvent -= Player_movedPlayerEvent;
+            Player.movedToJailEvent -= Player_jumpToIndex;
             Player.bankruptEvent -= Player_bankruptEvent;
             LogicManager.changeTurnsEvent -= LogicManager_changeTurnsEvent;
             LogicManager.gameStartEvent -= LogicManager_gameStartEvent;
@@ -218,6 +220,14 @@ namespace Monopoly.Controller
             }
 
             Square sq = LogicManager.instance.GetSquare(squareIndex);
+
+
+            if (sq.IsGotoJail())
+            {
+                LogicManager.instance.PlayerGotoJail(playerIndex);
+                LogicManager.instance.ChangeTurns();
+                return;
+            }
 
             // buyable square : property, station, utitlity
             if (sq.IsBuyable())
@@ -317,6 +327,13 @@ namespace Monopoly.Controller
 
             // move player game object
             playerObj.GetComponent<PlayerGameObject>().Move(pathQueue);
+        }
+
+        void Player_jumpToIndex(int playerIndex, int squareIndex)
+        {
+            GameObject playerObj = instance.playerGameObjs[playerIndex];
+            Vector3 pos = GetCenterPositionOnSquare(squareIndex);
+            playerObj.GetComponent<PlayerGameObject>().JumpTo(pos);
         }
 
         // get the center position on specific square, as square pivot is bottom left.

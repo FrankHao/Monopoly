@@ -64,6 +64,10 @@ namespace Monopoly.Common
             {"brown", new Color(186/255f,141/255f,80f/255f) },
             {"blue", new Color(0,104f/255f,176f/255f) }
         };
+
+        public const int PRISON_SQUARE_INDEX = 10;
+        public const int GOTO_JAIL_SQUARE_INDEX = 30;
+
         public enum Direction
         {
             UP, DOWN, LEFT, RIGHT

@@ -122,6 +122,8 @@ namespace Monopoly.Model
                     instance.GameOver();
                 }
             }
+
+            //TODO: check if the player is in jail, offer bail out option
             return instance.CurrentPlayerIndex;
         }
 
@@ -235,6 +237,11 @@ namespace Monopoly.Model
         {
             Player ply = instance.players[playerIndex];
             ply.Bankrupt();
+        }
+
+        public void PlayerGotoJail(int playerIndex)
+        {
+            instance.players[playerIndex].EnterJail();
         }
 
         public bool ReadyToGameOver()

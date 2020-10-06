@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using Monopoly.Model;
 
 public class CheatManager
 {
@@ -28,6 +29,19 @@ public class CheatManager
     public void Reset()
     {
         IsCheating = false;
+    }
+
+    public void CheatRollDice()
+    {
+        // get two dice numbers.
+        int[] nums = new int[] { dice1, dice2 };
+
+        // update UI
+        // UIManager.instance.UpdateDices(nums);
+
+        // move player in logic data, will move game object in event callback.
+        LogicManager.instance.MovePlayer(nums);
+
     }
 }
 
@@ -79,6 +93,7 @@ public class CheatWindow : EditorWindow, IHasCustomMenu
                 CheatManager.instance.IsCheating = true;
                 CheatManager.instance.dice1 = int.Parse(Dice1Text);
                 CheatManager.instance.dice2 = int.Parse(Dice2Text);
+                CheatManager.instance.CheatRollDice();
             }
         }
 

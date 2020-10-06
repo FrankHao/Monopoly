@@ -3,6 +3,39 @@ using UnityEngine;
 
 public class TweenUtil : MonoBehaviour
 {
+
+
+    public enum TweenType
+    {
+        TWEEN_ALPHA,
+        TWEEN_POSITION,
+        TWEEN_ROTATION,
+        TWEEN_SIZE
+    }
+
+    [SerializeField]
+    Vector3 TargetVector;
+
+    [SerializeField]
+    TweenType tweenType;
+    [SerializeField]
+    float tweenTime;
+
+
+    private void OnEnable()
+    {
+        switch (tweenType)
+        {
+            case TweenType.TWEEN_POSITION:
+                TweenUtil.TweenPosition(this.transform, TargetVector, tweenTime);
+                break;
+            case TweenType.TWEEN_SIZE:
+                TweenUtil.TweenSize(this.transform, TargetVector.x, tweenTime);
+                break;
+        }
+
+    }
+
     public static void TweenRotate(Transform transform, float endAngle, float duration = 1f)
     {
         System.Action<ITween<float>> objectRotate = (t) =>
@@ -27,7 +60,7 @@ public class TweenUtil : MonoBehaviour
             transform.localScale = Vector3.one * t.CurrentValue;
         };
 
-        float startSize = 1;
+        float startSize = transform.localScale.x;
 
         // completion defaults to null if not passed in
         transform.gameObject.Tween("ResizeTrans_" + transform.name, startSize, endSize, duration, TweenScaleFunctions.CubicEaseIn, objectSize);
@@ -47,5 +80,20 @@ public class TweenUtil : MonoBehaviour
 
         // completion defaults to null if not passed in
         transform.gameObject.Tween("ResizeTrans_" + transform.name, startAlpha, endAlpha, duration, TweenScaleFunctions.CubicEaseOut, objectAlpha);
+    }
+
+    public static void TweenPosition(Transform transform, Vector3 endPosition, float duration = 1f)
+    {
+        System.Action<ITween<Vector3>> objectPos = (t) =>
+        {
+            // start rotation from identity to ensure no stuttering
+            transform.rotation = Quaternion.identity;
+            transform.localPosition = t.CurrentValue;
+        };
+
+        Vector3 startPos = transform.localPosition;
+
+        // completion defaults to null if not passed in
+        transform.gameObject.Tween("ResizeTrans_" + transform.name, startPos, endPosition, duration, TweenScaleFunctions.CubicEaseIn, objectPos);
     }
 }
