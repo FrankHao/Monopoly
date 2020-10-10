@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using Monopoly.Controller;
 using Monopoly.Model;
 
 public class CheatManager
@@ -41,7 +42,13 @@ public class CheatManager
 
         // move player in logic data, will move game object in event callback.
         LogicManager.instance.MovePlayer(nums);
+    }
 
+    public void CheatSetFreeBailCard(int count)
+    {
+        Player player = LogicManager.instance.GetPlayer(LogicManager.instance.CurrentPlayerIndex);
+        Debug.LogWarning($"Setting Player {player.PlayerIndex}'s bail free card = {count}");
+        player.JailBailCards = count;
     }
 }
 
@@ -75,6 +82,8 @@ public class CheatWindow : EditorWindow, IHasCustomMenu
 
     string Dice1Text = "1";
     string Dice2Text = "1";
+    string JailFreeCard = "0";
+
     void OnGUI()
     {
         EditorGUILayout.BeginHorizontal();
@@ -94,6 +103,20 @@ public class CheatWindow : EditorWindow, IHasCustomMenu
                 CheatManager.instance.dice1 = int.Parse(Dice1Text);
                 CheatManager.instance.dice2 = int.Parse(Dice2Text);
                 CheatManager.instance.CheatRollDice();
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Cheat BailFreeCards", EditorStyles.boldLabel);
+        JailFreeCard = GUILayout.TextField(JailFreeCard, 10);
+        if (GUILayout.Button("Set Number of Cards"))
+        {
+            if (Application.isPlaying)
+            {
+                int cards = int.Parse(JailFreeCard);
+                CheatManager.instance.CheatSetFreeBailCard(cards);
             }
         }
 

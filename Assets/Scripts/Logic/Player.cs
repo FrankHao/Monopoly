@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Monopoly.Common;
+using Monopoly.View;
 
 namespace Monopoly.Model
 {
@@ -152,17 +153,51 @@ namespace Monopoly.Model
 
         public void EnterJail()
         {
-            UnityEngine.Debug.LogWarning($"Player {PlayerIndex} is going to jail.");
+            UnityEngine.Debug.Log($"Player {PlayerIndex} is going to jail.");
             JailTime = 3;
             movedToJailEvent?.Invoke(PlayerIndex, Constants.PRISON_SQUARE_INDEX);
             PosIndex = Constants.PRISON_SQUARE_INDEX;
         }
 
-        public void BailOutJail()
+        public void ServeJailTime()
+        {
+            if (JailTime > 0) JailTime--;
+        }
+        /// <summary>
+        ///   User bailing out of jail; if not enough cash player lost
+        ///     return true if ok, false if bankrupt
+        /// </summary>
+        /// <returns></returns>
+        public bool BailOutJail(long bail = Constants.BAIL_CASH)
         {
             JailTime = 0;
+            Cash -= bail;
+            UIManager.instance.UpdatePlayerCash(PlayerIndex, Cash);
+
+            if (Cash < 0)
+            {
+                // TODO: if cash became negative, player lost
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
+        public void UseJailCard(Action callbackOnOK, Action callBackOnCancel = null)
+        {
+            UIManager.instance.ShowConfirmUI($"Do you want to use the Get out of Jail card?\nYou still got {JailBailCards} left.",
+                okCallBack: () =>
+                {  // OK
+                    JailBailCards--;
+                    callbackOnOK();
+                },
+                cancelCallBack: callBackOnCancel
+            );
+        }
+
+        public delegate void GenericCallBack();
     }
 }
 

@@ -14,12 +14,12 @@ public class TweenUtil : MonoBehaviour
     }
 
     [SerializeField]
-    Vector3 TargetVector;
+    Vector3 TargetVector = Vector3.zero;
 
     [SerializeField]
-    TweenType tweenType;
+    TweenType tweenType = TweenType.TWEEN_POSITION;
     [SerializeField]
-    float tweenTime;
+    float tweenTime = 1f;
 
 
     private void OnEnable()

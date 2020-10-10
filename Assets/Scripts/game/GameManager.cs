@@ -169,7 +169,8 @@ namespace Monopoly.Controller
         void LogicManager_changeTurnsEvent(int playerIndex)
         {
             // update current player index
-            UIManager.instance.UpdateCurrentPlayerIndex(playerIndex);
+            bool canroll = !LogicManager.instance.CheckPlayerInJail(playerIndex);
+            UIManager.instance.UpdateCurrentPlayerIndex(playerIndex, canroll);
         }
 
         void ConfirmBuyCallBack()

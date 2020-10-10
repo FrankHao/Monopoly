@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 
 using Monopoly.Common;
+using Monopoly.View;
+using Monopoly.Model;
 
-namespace Monopoly.Model
+namespace Monopoly.Controller
 {
     public class LogicManager
     {
@@ -29,6 +31,7 @@ namespace Monopoly.Model
         List<Player> players = new List<Player>();
 
         List<List<string>> playHistory = new List<List<string>>();
+        private JailController jailController = new JailController();
 
         public int State { get; set; }
         public int PlayedRounds { get; set; }
@@ -116,14 +119,13 @@ namespace Monopoly.Model
             if (instance.CurrentPlayerIndex == 0)
             {
                 instance.PlayedRounds++;
-                // FOR TEST : reach limit rounds to end game.
+                // TODO: FOR TEST : reach limit rounds to end game.
                 if (instance.PlayedRounds >= Constants.GAME_LIMIT_ROUNDS)
                 {
                     instance.GameOver();
                 }
             }
 
-            //TODO: check if the player is in jail, offer bail out option
             return instance.CurrentPlayerIndex;
         }
 
@@ -142,6 +144,24 @@ namespace Monopoly.Model
             return instance.players[playerIndex].Cash;
         }
 
+        public bool CheckPlayerInJail(int playerIndex)
+        {
+            if (instance.players != null && instance.players.Count > playerIndex)
+            {
+                var player = instance.players[playerIndex];
+                bool inJail = player.IsInJail;
+                if (inJail)
+                {
+                    UnityEngine.Debug.Log($"Player {playerIndex} is in jail!");
+                    jailController.QuestionPlayer(playerIndex);
+                }
+
+                return inJail;
+            }
+
+            return false;
+        }
+
         public int GetSquareOwnerIndex(int squareIndex)
         {
             Square sq = instance.board.GetSquareByIndex(squareIndex);
@@ -156,8 +176,46 @@ namespace Monopoly.Model
         public void MovePlayer(int[] nums)
         {
             Player player = instance.players[instance.CurrentPlayerIndex];
-            player.Move(nums);
             instance.RecordRollHistory(instance.CurrentPlayerIndex, nums);
+
+            if (player.IsInJail)
+            {
+                // This is a throw on Jail Visit time
+                if (nums[0] == nums[1])
+                {
+                    // got a double to get out from jail
+                    player.BailOutJail(0);
+                }
+                else
+                {
+                    if (player.JailTime > 1)
+                    {
+                        UIManager.instance.ShowPopupUI("Go back to your cell and wait for your next turn!", () =>
+                        {
+                            player.ServeJailTime();
+                            ChangeTurns();
+                            UIManager.instance.EnableDice(true);
+                        });
+                        return;
+                    }
+                    else
+                    {
+                        UIManager.instance.ShowPopupUI("You must pay the bail to get out from jail!", () =>
+                        {
+                            player.ServeJailTime();
+                            player.BailOutJail();
+                            player.Move(nums);
+                        });
+                        return;
+                    }
+                }
+            }
+            player.Move(nums);
+        }
+
+        public Player GetPlayer(int playerIndex)
+        {
+            return players[playerIndex];
         }
 
         public void RecordRollHistory(int playerIndex, int[] nums)

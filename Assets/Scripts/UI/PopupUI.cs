@@ -28,6 +28,7 @@ namespace Monopoly.View
             if (cb != null)
             {
                 cb();
+                cb = null;
             }
             gameObject.SetActive(false);
         }

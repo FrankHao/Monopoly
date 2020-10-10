@@ -36,6 +36,7 @@ namespace Monopoly.View
         GameObject confirmUI;
         GameObject popupUI;
         GameObject squareShowingObject;
+        public bool IsShowingDialogUI { get; set; }
 
         void Awake()
         {
@@ -86,9 +87,17 @@ namespace Monopoly.View
             instance.popupUI.SetActive(true);
         }
 
+        public void ShowJailQuestionUI(System.Action<JailQuestionUI> callback)
+        {
+            GameObject go = Instantiate(Resources.Load<GameObject>("Prefabs/UI/JailQuestionUI"));
+            go.transform.SetParent(gameObject.transform, false);
+            callback(go.GetComponent<JailQuestionUI>());
+            IsShowingDialogUI = true;
+        }
+
         public void ShowSquareDescription(int squareNumber)
         {
-            if (instance.squareShowingObject != null) { return; }
+            if (instance.squareShowingObject != null || instance.IsShowingDialogUI) { return; }
 
             Square square = LogicManager.instance.GetSquare(squareNumber);
             switch (square.Type)
@@ -128,8 +137,8 @@ namespace Monopoly.View
         }
 
         public void ShowConfirmUI(string title,
-            ConfirmUI.GenericCallBack okCallBack,
-            ConfirmUI.GenericCallBack cancelCallBack)
+            System.Action okCallBack,
+            System.Action cancelCallBack)
         {
             instance.confirmUI.SetActive(true);
             instance.confirmUI.GetComponent<ConfirmUI>().UpdateInfo(title, okCallBack, cancelCallBack);
@@ -145,10 +154,15 @@ namespace Monopoly.View
             instance.playersUI.GetComponent<PlayersUI>().UpdatePlayerCash(playerIndex, cash);
         }
 
-        public void UpdateCurrentPlayerIndex(int playerIndex)
+        public void UpdateCurrentPlayerIndex(int playerIndex, bool canRoll)
         {
             instance.playersUI.GetComponent<PlayersUI>().UpdateCurrentPlayerIndex(playerIndex);
-            instance.rollingUI.GetComponent<RollingUI>().EnableRollButton();
+            EnableDice(canRoll);
+        }
+
+        public void EnableDice(bool canRoll)
+        {
+            instance.rollingUI.GetComponent<RollingUI>().EnableRollButton(canRoll);
         }
     }
 
