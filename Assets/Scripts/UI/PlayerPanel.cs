@@ -11,6 +11,9 @@ namespace Monopoly.View
         public Image iconImage;
         public Text nameText;
         public Text cashText;
+        public Image backgroundImage;
+        [SerializeField]
+        Color defaultColor;
 
         [SerializeField]
         long currentCash;
@@ -36,6 +39,7 @@ namespace Monopoly.View
             playerIndex = pIndex;
             iconImage.sprite = Resources.Load<Sprite>(GetPlayerSpriteName(pIndex));
             nameText.text = name;
+            nameText.color = UIManager.instance.OwnerColor[pIndex];
             currentCash = cash;
             cashText.text = cash.ToString();
             ShowHighlight(playerIndex == 0);
@@ -60,6 +64,7 @@ namespace Monopoly.View
         public void ShowHighlight(bool flag)
         {
             iconImage.color = flag ? Color.green : Color.white;
+            backgroundImage.color = flag ? Color.white : defaultColor;
         }
     }
 }
