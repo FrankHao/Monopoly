@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+
 using Monopoly.Model;
+using Monopoly.Common;
 using Monopoly.Controller;
+using System.Collections;
 
 namespace Monopoly.View
 {
     public class UIManager : MonoBehaviour
     {
         public List<Color> OwnerColor;
+
+        [SerializeField]
+        Text ScreenMessage;
 
         #region singleton
         // singleton design partten
@@ -163,6 +169,18 @@ namespace Monopoly.View
         public void EnableDice(bool canRoll)
         {
             instance.rollingUI.GetComponent<RollingUI>().EnableRollButton(canRoll);
+        }
+
+        public void ShowMessage(string message)
+        {
+            StartCoroutine(coShowMessage(message));
+        }
+
+        IEnumerator coShowMessage(string message)
+        {
+            ScreenMessage.text = message;
+            yield return new WaitForSeconds(Constants.MESSAGE_SHOWING_TIME);
+            ScreenMessage.text = "";
         }
     }
 

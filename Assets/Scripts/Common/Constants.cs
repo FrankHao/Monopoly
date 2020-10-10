@@ -69,6 +69,11 @@ namespace Monopoly.Common
 
         public const int PRISON_SQUARE_INDEX = 10;
         public const int GOTO_JAIL_SQUARE_INDEX = 30;
+        public const int BANK_ID = 99;
+
+        #region Timing
+        public const int MESSAGE_SHOWING_TIME = 5; // seconds
+        #endregion
 
         public enum Direction
         {

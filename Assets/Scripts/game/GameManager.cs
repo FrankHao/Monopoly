@@ -258,17 +258,14 @@ namespace Monopoly.Controller
                     }
 
                     long rentFee = LogicManager.instance.GetRentFee(playerIndex, squareIndex);
-                    string title = string.Format("You have to pay ${0} for rent.", rentFee);
 
-                    // sub cash
-                    long cash = LogicManager.instance.SubCashFromPlayer(playerIndex, rentFee);
+                    Player_PayEvent(playerIndex, sq.OwnerIndex, rentFee);
 
+
+                    long cash = LogicManager.instance.GetPlayer(playerIndex).Cash - rentFee;
                     // record rent history
                     LogicManager.instance.RecordPlayHistory(Constants.HISTORY_RENT,
                         playerIndex, squareIndex, rentFee, cash);
-
-                    // update player UI
-                    UIManager.instance.UpdatePlayerCash(playerIndex, cash);
 
                     if (instance.IsAutoMode)
                     {
@@ -277,6 +274,7 @@ namespace Monopoly.Controller
                     }
                     else
                     {
+                        string title = string.Format("You have to pay ${0} for rent.", rentFee);
                         // popup dialog UI
                         UIManager.instance.ShowPopupUI(title, PopupRentCallBack);
                     }
@@ -305,7 +303,8 @@ namespace Monopoly.Controller
         // pass Go event handler
         void PlayerGameObject_passGoEvent(int playerIndex)
         {
-            Debug.Log("Passing Go, collecting " + Constants.GO_PASS_SALARY);
+            string message = ("Passing Go, collecting " + Constants.GO_PASS_SALARY);
+            UIManager.instance.ShowMessage(message);
             // add GO salary to player
             long cash = LogicManager.instance.AddCashToPlayer(playerIndex, (long)Constants.GO_PASS_SALARY);
 
@@ -391,6 +390,9 @@ namespace Monopoly.Controller
             instance.boardGameObj.transform.SetParent(gameObject.transform);
         }
 
+
+
+        #region Game Events
         void Square_initSquareEvent(Square square)
         {
             int index = square.SquareIndex;
@@ -462,6 +464,52 @@ namespace Monopoly.Controller
             // move player in logic data, will move game object in event callback.
             LogicManager.instance.MovePlayer(nums);
         }
+
+        void Player_PayEvent(int from, int to, long amount)
+        {
+            string fromName, toName;
+            Player fromPlayer, toPlayer;
+            if (from == Constants.BANK_ID)
+            {
+                fromName = "The Bank";
+            }
+            else
+            {
+                fromPlayer = LogicManager.instance.GetPlayer(from);
+                fromName = fromPlayer.Name;
+            }
+
+            if (to == Constants.BANK_ID)
+            {
+                toName = "the Bank";
+            }
+            else
+            {
+                toPlayer = LogicManager.instance.GetPlayer(to);
+                toName = toPlayer.Name;
+            }
+
+            string message = $"{fromName} pays ${amount} to {toName}";
+            UIManager.instance.ShowMessage(message);
+
+            if (from != Constants.BANK_ID)
+            {
+                // sub cash
+                long cash = LogicManager.instance.SubCashFromPlayer(from, amount);
+                // update player UI
+                UIManager.instance.UpdatePlayerCash(from, cash);
+            }
+
+            if (to != Constants.BANK_ID)
+            {
+                // add cash
+                long cash = LogicManager.instance.AddCashToPlayer(to, amount);
+                // update player UI
+                UIManager.instance.UpdatePlayerCash(to, cash);
+            }
+        }
+
+        #endregion
 
     }
 }
