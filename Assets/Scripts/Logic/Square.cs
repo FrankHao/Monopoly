@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Monopoly.Common;
 using Monopoly.Controller;
@@ -10,7 +9,6 @@ namespace Monopoly.Model
     [Serializable]
     public class Square
     {
-
         public int SquareIndex { get; set; }
         public string Name { get; set; }
         public string Desc { get; set; }
@@ -41,31 +39,9 @@ namespace Monopoly.Model
         public delegate void initSquare(Square square);
         public static event initSquare initSquareEvent;
 
-        public Square(int index, Dictionary<string, object> sqDict)
+        public void InitComplete(int index)
         {
             SquareIndex = index;
-
-            try
-            {
-                Name = (string)sqDict["name"];
-                Desc = (string)sqDict["desc"];
-                Type = (string)sqDict["type"];
-                Color = (string)sqDict["color"];
-                Value = (long)sqDict["value"];
-
-                Rent = (long)sqDict["Rent"];
-                Rent1h = (long)sqDict["Rent1h"];
-                Rent2h = (long)sqDict["Rent2h"];
-                Rent3h = (long)sqDict["Rent3h"];
-                Rent4h = (long)sqDict["Rent4h"];
-                RentHotel = (long)sqDict["RentHotel"];
-                BuildCost = (long)sqDict["Build"];
-            }
-            catch
-            {
-
-            }
-
             // trigger square event to create game object.
             if (initSquareEvent != null)
             {

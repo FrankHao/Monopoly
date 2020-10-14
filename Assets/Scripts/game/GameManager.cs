@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Newtonsoft.Json;
 
 using Monopoly.View;
 using Monopoly.Model;
@@ -106,7 +104,8 @@ namespace Monopoly.Controller
             {
                 string resultline = "";
                 resultline = string.Format("[RESULT]: player {0} cash {1}, owned properties {2}",
-                    player.PlayerIndex, player.Cash, MiniJSON.Json.Serialize(player.GetOwnedSquareIndex()));
+                    player.PlayerIndex, player.Cash,
+                    JsonConvert.SerializeObject(player.GetOwnedSquareIndex()));
                 file.WriteLine(resultline);
             }
 
@@ -392,7 +391,6 @@ namespace Monopoly.Controller
 
 
 
-        #region Game Events
         void Square_initSquareEvent(Square square)
         {
             int index = square.SquareIndex;
@@ -452,6 +450,7 @@ namespace Monopoly.Controller
             instance.squareGameObjs.Add(squareObj);
         }
 
+        #region Game Events
         // after click dice
         void RollingUI_rollDiceEvent()
         {

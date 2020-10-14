@@ -5,13 +5,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Mediteranean Avenue",
@@ -33,13 +33,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Baltic Avenue",
@@ -61,13 +61,13 @@
         "desc": "desc",
         "color": "white",
         "value": 200,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Reading Railroad",
@@ -79,9 +79,9 @@
         "Rent1h": 50,
         "Rent2h": 100,
         "Rent3h": 200,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Oriental Avenue",
@@ -103,13 +103,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Vermont Avenue",
@@ -145,13 +145,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "St.Charles Place",
@@ -173,13 +173,13 @@
         "desc": "If ONE Utility is owned, rent is 4x the number on the dice which landed the player on the utility, but if BOTH Utilities are owned, rent is 10x the amount shown on the dice.",
         "color": "white",
         "value": 150,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "States Avenue",
@@ -219,9 +219,9 @@
         "Rent1h": 50,
         "Rent2h": 100,
         "Rent3h": 200,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "St.James Place",
@@ -243,13 +243,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Tennessee Avenue",
@@ -285,13 +285,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Kentucky Avenue",
@@ -313,13 +313,13 @@
         "desc": "desc",
         "color": "white",
         "value": 0,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Indiana Avenue",
@@ -359,9 +359,9 @@
         "Rent1h": 50,
         "Rent2h": 100,
         "Rent3h": 200,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Atlantic Avenue",
@@ -397,13 +397,13 @@
         "desc": "If ONE Utility is owned, rent is 4x the amount shown on the dice when the opponent rolled, but if BOTH Utilities are owned, rent is 10x the amount shown on the dice.",
         "color": "white",
         "value": 150,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Marvin Gardens",
@@ -425,13 +425,13 @@
         "desc": "desc",
         "color": "white",
         "value": 150,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Pacific Avenue",
@@ -467,13 +467,13 @@
         "desc": "desc",
         "color": "white",
         "value": 150,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Pennslvania Avenue",
@@ -499,9 +499,9 @@
         "Rent1h": 50,
         "Rent2h": 100,
         "Rent3h": 200,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Chance",
@@ -509,13 +509,13 @@
         "desc": "desc",
         "color": "white",
         "value": 200,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Park Place",
@@ -537,13 +537,13 @@
         "desc": "desc",
         "color": "white",
         "value": 100,
-        "Rent": null,
-        "Rent1h": null,
-        "Rent2h": null,
-        "Rent3h": null,
-        "Rent4h": null,
-        "RentHotel": null,
-        "Build": null
+        "Rent": 0,
+        "Rent1h": 0,
+        "Rent2h": 0,
+        "Rent3h": 0,
+        "Rent4h": 0,
+        "RentHotel": 0,
+        "Build": 0
     },
     {
         "name": "Board walk",

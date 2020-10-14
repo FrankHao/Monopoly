@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MiniJSON;
+using Newtonsoft.Json;
 
 namespace Monopoly.Model
 {
@@ -7,20 +7,18 @@ namespace Monopoly.Model
     [System.Serializable]
     public class Board
     {
-
         // holds all squares.
         List<Square> squares = new List<Square>();
 
         // constructor 
         public Board(string boardJSON)
         {
-            List<object> boardObj = Json.Deserialize(boardJSON) as List<object>;
+
             int index = 0;
-            foreach (object square in boardObj)
+            squares = JsonConvert.DeserializeObject<List<Square>>(boardJSON);
+            foreach (Square sq in squares)
             {
-                Dictionary<string, object> sqDict = square as Dictionary<string, object>;
-                Square sqObj = new Square(index, sqDict);
-                squares.Add(sqObj);
+                sq.InitComplete(index);
                 index++;
             }
         }
