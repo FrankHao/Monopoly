@@ -399,13 +399,14 @@ namespace Monopoly.Controller
             squareObj.transform.SetParent(instance.boardGameObj.transform);
             squareObj.name = string.Format("Square {0}", square.SquareIndex.ToString("D2"));
 
+            Transform bgTrans = boardGameObj.transform.Find("Background");
             Constants.Direction direction = Constants.Direction.DOWN;
             // start square, is GO square
             if (index == 0)
             {
                 //squareObj.GetComponent<SpriteRenderer>().sprite = cornerSquare;
                 squareObj.GetComponent<SpriteRenderer>().sprite = sprites[index];
-                float startX = boardGameObj.GetComponent<SpriteRenderer>().bounds.size.x -
+                float startX = bgTrans.GetComponent<SpriteRenderer>().bounds.size.x -
                     squareObj.GetComponent<SpriteRenderer>().bounds.size.x;
                 squareObj.transform.localPosition = new Vector3(startX, 0f, 0f);
             }
