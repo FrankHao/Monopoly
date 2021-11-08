@@ -9,7 +9,7 @@ namespace Monopoly.Common
         #region game setting
         public const int TOTAL_SQUARE_COUNT = 40;
         public const int PLAYER_COUNT = 2;
-        public const int START_CASH = 1500;
+        public const int START_CASH = 5000;
         public const int BAIL_CASH = 50;
 
         public const int GO_PASS_SALARY = 200;
@@ -34,7 +34,7 @@ namespace Monopoly.Common
         #region game state
         public const int GAME_NOT_START = 0;
         public const int GAME_STARTED = 1;
-        public const int GAME_LIMIT_ROUNDS = 60;
+        public const int GAME_LIMIT_ROUNDS = 10;
         #endregion
 
         #region dice number

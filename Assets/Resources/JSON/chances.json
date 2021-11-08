@@ -1,0 +1,238 @@
+﻿[
+        {
+            "Description": "Advance to \"Go\"",
+            "Type": "move",
+            "To": "0",
+            "Box": "chance"
+        },
+        {
+            "Description": "Advance to Illinois Ave",
+            "Type": "move",
+            "To": "23",
+            "Box": "chance"
+        },
+        {
+            "Description": "Advance to St  Charles Place",
+            "Type": "move",
+            "To": "11",
+            "Box": "chance"
+        },
+        {
+            "Description": "Advance to nearest Utility",
+            "Type": "move3",
+            "Amount": "1",
+            "To": "next_utility",
+            "Box": "chance"
+        },
+        {
+            "Description": "Advance to the nearest Railroad and pay owner twice the rental",
+            "Type": "move3",
+            "Amount": "2",
+            "To": "next_station",
+            "Box": "chance"
+        },
+        {
+            "Description": "Bank pays you dividend of $50",
+            "Type": "pay",
+            "Amount": "50",
+            "From": "bank",
+            "To": "you",
+            "Box": "chance"
+        },
+        {
+            "Description": "Get out of Jail Free",
+            "Type": "free",
+            "Box": "chance"
+        },
+        {
+            "Description": "Go Back 3 Spaces",
+            "Type": "move2",
+            "Amount": "-3",
+            "Box": "chance"
+        },
+        {
+            "Description": "Go to Jail",
+            "Type": "jail",
+            "Box": "chance"
+        },
+        {
+            "Description": "Make general repairs on all your property: For each house pay $25, For each hotel pay $100",
+            "Type": "mpay",
+            "Amount": "25:100",
+            "From": "you",
+            "To": "bank",
+            "Box": "chance"
+        },
+        {
+            "Description": "Pay poor tax of $15 (His trouser pockets pulled out to show them empty, Mr",
+            "Type": "pay",
+            "Amount": "15",
+            "From": "you",
+            "To": "bank",
+            "Box": "chance"
+        },
+        {
+            "Description": "Take a trip to Reading Railroad",
+            "Type": "move",
+            "To": "5",
+            "Box": "chance"
+        },
+        {
+            "Description": "Take a walk on the Boardwalk",
+            "Type": "move",
+            "To": "39",
+            "Box": "chance"
+        },
+        {
+            "Description": "You have been elected Chairman of the Board",
+            "Type": "pay",
+            "Amount": "50 ",
+            "From": "you",
+            "To": "players",
+            "Box": "chance"
+        },
+        {
+            "Description": "Your loan matures",
+            "Type": "pay",
+            "Amount": "150",
+            "From": "bank",
+            "To": "you",
+            "Box": "chance"
+        },
+        {
+            "Description": "You have won a crossword competition",
+            "Type": "pay",
+            "Amount": "100",
+            "From": "bank",
+            "To": "you",
+            "Box": "chance"
+        },
+        {
+            "Description": "Advance to \"Go\"",
+            "Type": "move",
+            "To": "0",
+            "Box": "community"
+        },
+        {
+            "Description": "Bank error in your favor",
+            "Type": "pay",
+            "Amount": "200",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "Doctor's fees",
+            "Type": "pay",
+            "Amount": "50",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "From sale of stock you get $50",
+            "Type": "pay",
+            "Amount": "50",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "Get Out of Jail Free",
+            "Type": "free",
+            "Box": "community"
+        },
+        {
+            "Description": "Go to Jail",
+            "Type": "jail",
+            "Box": "community"
+        },
+        {
+            "Description": "Grand Opera Night",
+            "Type": "mpay",
+            "Amount": "50",
+            "From": "players",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "Holiday Fund matures",
+            "Type": "pay",
+            "Amount": "100",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "Income tax refund",
+            "Type": "pay",
+            "Amount": "20",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "It is your birthday",
+            "Type": "pay",
+            "Amount": "10",
+            "From": "players",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "Life insurance matures ‚ Collect $100 ",
+            "Type": "pay",
+            "Amount": "100",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "Hospital Fees",
+            "Type": "pay",
+            "Amount": "50",
+            "From": "you",
+            "To": "bank",
+            "Box": "community"
+        },
+        {
+            "Description": "School fees",
+            "Type": "pay",
+            "Amount": "50",
+            "From": "you",
+            "To": "bank",
+            "Box": "community"
+        },
+        {
+            "Description": "Receive $25 consultancy fee",
+            "Type": "pay",
+            "Amount": "25",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "You are assessed for street repairs: Pay $40 per house and $115 per hotel you own",
+            "Type": "mpay",
+            "Amount": "40:115",
+            "From": "you",
+            "To": "bank",
+            "Box": "community"
+        },
+        {
+            "Description": "You have won second prize in a beauty contest",
+            "Type": "pay",
+            "Amount": "10",
+            "From": "bank",
+            "To": "you",
+            "Box": "community"
+        },
+        {
+            "Description": "You inherit $100",
+            "Type": "pay",
+            "Amount": "100",
+            "From": "bank ",
+            "To": "you",
+            "Box": "community"
+        }
+]
